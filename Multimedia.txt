@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Multimedia - Agrupación Santa Agonía</title>
+
+  <!-- Tipografías de Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Configuración de colores y fuentes para Tailwind -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            lila: "#411873",
+            cardenal: "#9B1B30",
+            pergamino: "#F5E6D3",
+            blanco: "#FFFFFF",
+            "background-light": "#ffffff",
+            "background-dark": "#120a1a",
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+            serif: ["Playfair Display", "serif"]
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Estilos personalizados de la página -->
+  <style>
+    /* Efecto hover elegante para las tarjetas de categorías */
+    .category-card {
+      transition: all 0.35s ease;
+    }
+    .category-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    }
+
+    /* Imágenes en blanco y negro con hover a color */
+    .grayscale-img {
+      filter: grayscale(100%);
+      transition: filter 0.5s ease;
+    }
+    .grayscale-img:hover {
+      filter: grayscale(0%);
+    }
+
+    /* Ajustes para móviles */
+    @media (max-width: 768px) {
+      .mobile-padding { padding-left: 1rem; padding-right: 1rem; }
+      .mobile-title { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<main class="pt-4">
+
+  <!-- ============================================================
+       SECCIÓN HERO: Título y descripción
+       ============================================================ -->
+  <section class="py-12 md:py-20 bg-white dark:bg-background-dark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 mobile-padding text-center">
+      <span class="text-lila font-bold tracking-[0.3em] uppercase text-[10px] mb-3 block">Archivo Visual</span>
+      <h1 class="text-4xl md:text-6xl font-serif text-gray-900 dark:text-white mb-4">Multimedia</h1>
+      <div class="w-20 h-[1px] bg-lila mx-auto mb-8"></div>
+      <p class="text-base md:text-lg max-w-2xl mx-auto text-gray-500 dark:text-gray-400 font-serif italic leading-relaxed">
+        Memoria gráfica de la Agrupación de la Santa Agonía. Accede a nuestro archivo fotográfico y videográfico.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPLICACIÓN: Cómo acceder al archivo
+       ============================================================ -->
+  <section class="py-10 bg-gray-50 dark:bg-background-dark/30">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 mobile-padding">
+      <div class="bg-white dark:bg-gray-900 p-6 md:p-8 rounded-lg border border-lila/20 shadow-sm">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-full bg-lila/10 flex items-center justify-center">
+            <span class="material-symbols-outlined text-lila text-xl">info</span>
+          </div>
+          <div>
+            <h3 class="text-xl font-serif text-gray-900 dark:text-white mb-3">Cómo acceder al archivo multimedia</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-2">
+              Nuestro archivo está organizado en carpetas de Google Drive para facilitar la navegación. Cada categoría enlaza a una carpeta con imágenes en alta calidad.
+            </p>
+            <p class="text-sm text-gray-500 dark:text-gray-500">
+              No es necesario descargar nada: puedes visualizarlo todo directamente desde Drive.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CATEGORÍAS MULTIMEDIA: 4 tarjetas con enlaces a Drive
+       ============================================================ -->
+  <section class="py-16 bg-white dark:bg-background-dark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 mobile-padding">
+
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-4">Categorías Multimedia</h2>
+        <div class="w-16 h-[1px] bg-lila mx-auto mb-6"></div>
+        <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          Haz clic en cualquier categoría para acceder a la carpeta correspondiente.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Tarjeta 1: Fotografías de Procesiones -->
+        <a href="https://drive.google.com/drive/folders/FAKE_ID_FOTOS?usp=sharing"
+           target="_blank"
+           class="category-card bg-white dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-800">
+          <div class="aspect-video rounded-lg overflow-hidden mb-6 grayscale-img bg-gray-100 dark:bg-gray-800">
+            <img src="https://i.postimg.cc/7Pppm1Zf/Viernes-Santo-2023-20.jpg"
+                 alt="Fotografía de la procesión del Viernes Santo"
+                 class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-xl font-serif text-gray-900 dark:text-white mb-2">Fotografías de Procesiones</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Colección completa de fotografías de procesiones, actos y eventos.
+          </p>
+          <div class="flex items-center text-lila font-medium text-sm">
+            <span>Acceder</span>
+            <span class="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+          </div>
+        </a>
+
+        <!-- Tarjeta 2: Actos de la Agrupación -->
+        <a href="https://drive.google.com/drive/folders/FAKE_ID_ACTOS?usp=sharing"
+           target="_blank"
+           class="category-card bg-white dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-800">
+          <div class="aspect-video rounded-lg overflow-hidden mb-6 grayscale-img bg-gray-100 dark:bg-gray-800">
+            <img src="https://i.postimg.cc/6Qg0t0SV/Whats-App-Image-2026-01-19-at-12-37-34.jpg"
+                 alt="Acto de la Agrupación"
+                 class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-xl font-serif text-gray-900 dark:text-white mb-2">Actos de la Agrupación</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Fotografías de reuniones, celebraciones y actos internos.
+          </p>
+          <div class="flex items-center text-lila font-medium text-sm">
+            <span>Acceder</span>
+            <span class="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+          </div>
+        </a>
+
+        <!-- Tarjeta 3: Archivo Histórico -->
+        <a href="https://drive.google.com/drive/folders/FAKE_ID_HISTORICO?usp=sharing"
+           target="_blank"
+           class="category-card bg-white dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-800">
+          <div class="aspect-video rounded-lg overflow-hidden mb-6 grayscale-img bg-gray-100 dark:bg-gray-800">
+            <img src="https://i.postimg.cc/L4bHRZ4w/Actos-2003-(4).jpg"
+                 alt="Fotografía histórica de la Agrupación"
+                 class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-xl font-serif text-gray-900 dark:text-white mb-2">Archivo Histórico</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Fotografías antiguas que documentan la historia de la Agrupación.
+          </p>
+          <div class="flex items-center text-lila font-medium text-sm">
+            <span>Acceder</span>
+            <span class="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+          </div>
+        </a>
+
+        <!-- Tarjeta 4: Videos -->
+        <a href="https://drive.google.com/drive/folders/FAKE_ID_VIDEOS?usp=sharing"
+           target="_blank"
+           class="category-card bg-white dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-800">
+          <div class="aspect-video rounded-lg overflow-hidden mb-6 grayscale-img bg-gray-100 dark:bg-gray-800">
+            <img src="https://i.postimg.cc/K8nFnq7m/Madrugada-2023-(24).jpg"
+                 alt="Imagen de la Madrugada 2023"
+                 class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-xl font-serif text-gray-900 dark:text-white mb-2">Videos</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Colección de videos de procesiones y actos especiales.
+          </p>
+          <div class="flex items-center text-lila font-medium text-sm">
+            <span>Acceder</span>
+            <span class="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       INSTRUCCIONES: Cómo usar Google Drive
+       ============================================================ -->
+  <section class="py-16 bg-gray-50 dark:bg-background-dark/30">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 mobile-padding">
+
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-4">Cómo usar Google Drive</h2>
+        <div class="w-16 h-[1px] bg-cardenal mx-auto mb-6"></div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Paso 1: Navegación -->
+        <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm">
+          <div class="w-12 h-12 rounded-full bg-cardenal/10 flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-cardenal text-xl">folder</span>
+          </div>
+          <h3 class="text-lg font-serif text-gray-900 dark:text-white mb-2">Navegación</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Navega por las carpetas organizadas por año o evento.
+          </p>
+        </div>
+
+        <!-- Paso 2: Visualización -->
+        <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm">
+          <div class="w-12 h-12 rounded-full bg-cardenal/10 flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-cardenal text-xl">visibility</span>
+          </div>
+          <h3 class="text-lg font-serif text-gray-900 dark:text-white mb-2">Visualización</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Haz clic en cualquier imagen para verla en grande.
+          </p>
+        </div>
+
+        <!-- Paso 3: Descargas -->
+        <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm">
+          <div class="w-12 h-12 rounded-full bg-cardenal/10 flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-cardenal text-xl">download</span>
+          </div>
+          <h3 class="text-lg font-serif text-gray-900 dark:text-white mb-2">Descargas</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Descarga imágenes en alta resolución si lo necesitas.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BOTÓN PARA VOLVER AL INICIO
+       ============================================================ -->
+  <section class="py-16 bg-white dark:bg-background-dark text-center">
+    <a href="index.html"
+       class="inline-flex items-center gap-2 px-8 py-4 bg-lila text-white rounded-full hover:bg-lila/80 transition-colors text-lg font-medium">
+      <span class="material-symbols-outlined text-base">arrow_back</span>
+      Volver a la Página Principal
+    </a>
+  </section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Junta Directiva - Agrupación Santa Agonía</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "agonia": "#5d249e",
+                    "agonia-light": "#7a3fbf",
+                    "agonia-dark": "#4a1c85",
+                    "blanco": "#FFFFFF",
+                    "cardenal": "#9B1B30",
+                    "pergamino": "#F5E6D3",
+                    "background-light": "#ffffff",
+                    "background-dark": "#120a1a",
+                },
+                fontFamily: {
+                    "display": ["Inter", "sans-serif"],
+                    "serif": ["Playfair Display", "serif"]
+                },
+                borderRadius: {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+            },
+        },
+    }
+</script>
+<style>
+    .grayscale-img {
+        filter: grayscale(100%);
+        transition: filter 0.5s ease;
+    }
+    .grayscale-img:hover {
+        filter: grayscale(0%);
+    }
+    .badge-agonia {
+        background-color: #5d249e;
+        color: #FFFFFF;
+        border: 1px solid #5d249e;
+    }
+    .directivo-card {
+        transition: all 0.3s ease;
+        border-left: 4px solid #5d249e;
+        background-color: white;
+    }
+    .dark .directivo-card {
+        background-color: #1a1a1a;
+    }
+    .directivo-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -5px rgba(93, 36, 158, 0.2);
+    }
+    .hover-glow { transition: all 0.3s ease; }
+    .hover-glow:hover { box-shadow: 0 0 20px rgba(93, 36, 158, 0.5); }
+    .text-justify { text-align: justify; }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<main class="pt-4">
+
+<!-- Hero Section -->
+<section class="py-20 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<span class="badge-agonia px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase mb-4 inline-block">Agrupación de la Santa Agonía, Vera Cruz y Condena de Jesús</span>
+<h1 class="text-5xl md:text-7xl font-serif text-gray-900 dark:text-white mb-6">Junta Directiva</h1>
+<div class="w-20 h-[1px] bg-agonia mx-auto mb-8"></div>
+<p class="max-w-2xl mx-auto text-gray-500 dark:text-gray-400 font-serif italic text-lg leading-relaxed text-center">
+    Composición de la Junta Directiva actual de la Agrupación
+</p>
+</div>
+</section>
+
+<!-- Imagen Principal (Opcional) -->
+<section class="py-8 bg-white dark:bg-background-dark">
+<div class="max-w-4xl mx-auto px-6">
+<div class="aspect-[16/9] rounded-lg overflow-hidden shadow-xl grayscale-img">
+<img src="https://i.postimg.cc/Qd0GSVQH/2025-Misa-Exaltacion.jpg" 
+     alt="Junta Directiva de la Agrupación" 
+     class="w-full h-full object-cover">
+</div>
+<p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-4 italic">Junta Directiva de la Agrupación</p>
+</div>
+</section>
+
+<!-- Junta Directiva - Listado completo con formato unificado -->
+<section class="py-16 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-serif text-gray-900 dark:text-white mb-4">Miembros de la Junta Directiva</h2>
+<div class="w-16 h-[1px] bg-agonia mx-auto mb-4"></div>
+<p class="mt-4 text-gray-600 dark:text-gray-400 max-w-3xl mx-auto text-lg">Todos los miembros que componen la Junta Directiva de la Agrupación</p>
+</div>
+
+<!-- Lista completa con el mismo formato que los vocales de tercio -->
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- Presidencia y cargos principales -->
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Presidencia</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">Enrique Soler Martínez</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Presidente</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Asesoría</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">María Saura Lorente</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Asesor del Presidente</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Vicepresidencia Primera</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">Beatriz Saura Cerezuela</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Vicepresidente Primero</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Vicepresidencia Segunda</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">José Alcaraz Víllora</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Vicepresidente Segundo</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Tesorería</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">José Luis Lluch Mercader</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Tesorero</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Guardalmacén</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">Carmelo González Víllora</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Guardalmacén General</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Secretaría</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">Alejandro Zamora Fernández</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Secretario</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Vicesecretaría</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">Enrique Soler Espejo</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Vicesecretario y Vocal de Protocolo, Formación y Archivo</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Vicetesorería</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">María Ángeles García Ortuño</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Vicetesorero</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Patrimonio</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">Manuel Vila Martínez</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Guardalmacén Adjunto y Vocal de Arte y Patrimonio</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Junta de Damas</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">Caridad Luisa García Vicente</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Presidenta de la Junta de Damas</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Comisión de Observancia</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">María José Cervell Hortal</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Presidenta de la Comisión de Observancia del Reglamento</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Culto y Caridad</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">Eva María Hernández Pontones</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Vocal de Culto y Caridad</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Juventud</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">Alba Alcaraz Domínguez</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Vocal de Juventud y Nazarenos</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Comunicación</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">Alejandro Alcaraz Sánchez</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Vocal de Comunicación y Redes</p>
+    </div>
+
+    <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+        <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Traslado</p>
+        <p class="font-medium text-gray-900 dark:text-white text-lg">Sebastián García Gimeno</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Comisario de Tronos y Capataz del Traslado</p>
+    </div>
+
+</div>
+
+<!-- Vocales de los tercios (con el mismo formato) -->
+<div class="mt-16">
+    <h3 class="text-3xl font-serif text-gray-900 dark:text-white mb-8 text-center">Vocales de los Tercios</h3>
+    <p class="text-center text-gray-600 dark:text-gray-400 mb-8">Electos por los propios tercios</p>
+    <div class="grid md:grid-cols-3 gap-6">
+        <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+            <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Santa Agonía</p>
+            <p class="font-medium text-gray-900 dark:text-white text-lg">Jaime Bellido Martínez</p>
+        </div>
+        <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+            <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Condena de Jesús</p>
+            <p class="font-medium text-gray-900 dark:text-white text-lg">Esther Saura Cerezuela</p>
+        </div>
+        <div class="directivo-card p-6 rounded-xl shadow-sm border border-agonia/10">
+            <p class="text-xs uppercase font-bold text-agonia tracking-widest mb-2">Vera Cruz</p>
+            <p class="font-medium text-gray-900 dark:text-white text-lg">Pedro García Pérez</p>
+        </div>
+    </div>
+</div>
+
+</div>
+</section>
+
+<!-- Botón para volver -->
+<section class="py-12 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<a href="index.html" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-agonia to-agonia-dark text-white rounded-full hover:shadow-lg hover:scale-105 transition-all text-lg font-medium shadow-md">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+Volver al Inicio
+</a>
+</div>
+</section>
+
+</main>
+
+<script>
+// Pequeño script para mantener la coherencia de estilos (opcional)
+</script>
+</body>
+</html>

@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Santa Agonía - Cofradía Marraja</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "agonia": "#411873",
+                    "agonia-light": "#5d249e",
+                    "agonia-dark": "#2e1252",
+                    "blanco": "#FFFFFF",
+                    "cardenal": "#9B1B30",
+                    "pergamino": "#F5E6D3",
+                    "background-light": "#ffffff",
+                    "background-dark": "#120a1a",
+                },
+                fontFamily: {
+                    "display": ["Inter", "sans-serif"],
+                    "serif": ["Playfair Display", "serif"]
+                },
+                borderRadius: {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+            },
+        },
+    }
+</script>
+<style>
+    /* CSS NORMAL - FUERA DE TAILWIND */
+    .grayscale-img {
+        filter: grayscale(100%);
+        transition: filter 0.5s ease;
+    }
+    .grayscale-img:hover {
+        filter: grayscale(0%);
+    }
+    .badge-agonia {
+        background-color: #411873;
+        color: white;
+        border: 1px solid #411873;
+    }
+    
+    /* Estilos para el modal de burbujas */
+    .bubble-modal {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .bubble-modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    /* Estilos modernos para las burbujas */
+    .modern-bubble {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        background: linear-gradient(145deg, #4a1c85 0%, #381363 100%);
+        box-shadow: 0 10px 30px rgba(65, 24, 115, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .modern-bubble::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.1) 0%, 
+                    rgba(255, 255, 255, 0.05) 50%,
+                    rgba(255, 255, 255, 0) 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    
+    .modern-bubble::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, 
+                    rgba(255, 255, 255, 0.1) 0%,
+                    rgba(255, 255, 255, 0.05) 30%,
+                    rgba(255, 255, 255, 0) 70%);
+        transform: scale(0.5);
+        opacity: 0;
+        transition: all 0.6s ease;
+    }
+    
+    .modern-bubble:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 20px 40px rgba(65, 24, 115, 0.4),
+                    0 0 0 1px rgba(255, 255, 255, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        background: linear-gradient(145deg, #5a1f9e 0%, #451a7a 100%);
+    }
+    
+    .modern-bubble:hover::before {
+        opacity: 1;
+    }
+    
+    .modern-bubble:hover::after {
+        transform: scale(1);
+        opacity: 1;
+    }
+    
+    /* Texto de las burbujas */
+    .bubble-text {
+        position: relative;
+        z-index: 2;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        letter-spacing: 1px;
+        font-weight: 700;
+    }
+    
+    /* Animación de entrada para las burbujas */
+    @keyframes bubbleEnter {
+        0% {
+            opacity: 0;
+            transform: translateY(30px) scale(0.8);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    .bubble-enter {
+        animation: bubbleEnter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    
+    .bubble-delay-1 { animation-delay: 0.1s; }
+    .bubble-delay-2 { animation-delay: 0.2s; }
+    .bubble-delay-3 { animation-delay: 0.3s; }
+    .bubble-delay-4 { animation-delay: 0.4s; }
+    .bubble-delay-5 { animation-delay: 0.5s; }
+    .bubble-delay-6 { animation-delay: 0.6s; }
+    .bubble-delay-7 { animation-delay: 0.7s; }
+    
+    /* Animación sutil de flotación */
+    @keyframes gentleFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+    
+    .floating {
+        animation: gentleFloat 6s ease-in-out infinite;
+    }
+    
+    .float-delay-1 { animation-delay: 0.5s; }
+    .float-delay-2 { animation-delay: 1s; }
+    .float-delay-3 { animation-delay: 1.5s; }
+    .float-delay-4 { animation-delay: 2s; }
+    .float-delay-5 { animation-delay: 2.5s; }
+    .float-delay-6 { animation-delay: 3s; }
+    .float-delay-7 { animation-delay: 3.5s; }
+    
+    /* Estilos para el carrusel */
+    .carousel-slide {
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+    
+    .carousel-slide.active {
+        display: block;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    /* Efecto de brillo en hover para el modal */
+    .hover-glow {
+        transition: all 0.3s ease;
+    }
+    
+    .hover-glow:hover {
+        box-shadow: 0 0 20px rgba(65, 24, 115, 0.5);
+    }
+    
+    /* Grid responsivo mejorado */
+    @media (max-width: 640px) {
+        .modern-bubble {
+            border-radius: 16px;
+        }
+    }
+    
+    /* Texto justificado */
+    .text-justified {
+        text-align: justify;
+        hyphens: auto;
+    }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="py-20 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<span class="badge-agonia px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase mb-4 inline-block">Agrupación de la Santa Agonía, Vera Cruz y Condena de Jesús</span>
+<h1 class="text-5xl md:text-7xl font-serif text-gray-900 dark:text-white mb-6">Tercio de la Santa Agonía</h1>
+<div class="w-20 h-[1px] bg-agonia mx-auto mb-8"></div>
+<p class="max-w-2xl mx-auto text-gray-500 dark:text-gray-400 font-serif italic text-lg leading-relaxed">
+    Fundada en 1929. Procesiona en la noche del Viernes Santo.
+</p>
+</div>
+</section>
+
+<!-- Imagen Principal -->
+<section class="py-8 bg-white dark:bg-background-dark">
+<div class="max-w-4xl mx-auto px-6">
+<div class="aspect-[16/9] rounded-lg overflow-hidden shadow-xl grayscale-img">
+<img src="https://i.postimg.cc/k59K7HX4/Whats_App_Image_2026_01_20_at_21_30_10_(2).jpg" 
+     alt="Agrupación de la Santa Agonía, Vera Cruz y Condena de Jesús - Procesión del Viernes Santo"
+     class="w-full h-full object-cover">
+</div>
+<p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-4 italic"> Tercio de la Santa Agonía - Viernes Santo</p>
+</div>
+</section>
+
+<!-- Significado -->
+<section class="py-16 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6">
+<div class="grid lg:grid-cols-2 gap-12 items-start mb-16">
+<div class="space-y-8">
+<h2 class="text-3xl font-serif text-gray-900 dark:text-white">Significado de la Procesión</h2>
+<div class="space-y-6 text-gray-600 dark:text-gray-400 leading-relaxed text-justified">
+<p>
+    El tercio de la <strong class="text-agonia"> Santa Agonía</strong> procesiona en la noche del <strong>Viernes Santo</strong>, momento litúrgico que representa las últimas horas de Cristo en la cruz antes de su muerte. Esta procesión forma parte de la procesión del <strong>Santo Entierro</strong> y es una de las más emblemáticas de la Semana Santa de Cartagena, perteneciente a la Cofradía Marraja.
+</p>
+<p>
+    La salida se realiza a las <strong>20:00 horas</strong> desde la <strong>Iglesia de Santa María de Gracia</strong>, situada en la <strong>Calle del Aire</strong>. El recorrido procesional atraviesa las principales calles del centro histórico de Cartagena, incluyendo la <strong>Calle Mayor</strong>, la <strong>Calle del Carmen</strong> y las <strong>Puertas de Murcia</strong>, finalizando en el mismo templo de origen tras aproximadamente cuatro horas de recorrido.
+</p>
+<p>
+    Fundada en <strong>1929</strong>, este tercio procesiona las imagenes del <strong>Cristo de la  Agonía</strong>, obra del escultor catalán <strong>Carles Flotats i Galtés (1942)</strong>, y la <strong>Virgen de la Amargura</strong>, obra de <strong>Efraín Gómez Montón (1963)</strong>. Ambas imágenes representan el realismo sacro característico de la Cofradía Marraja.
+</p>
+
+</div>
+</div>
+<div class="space-y-6">
+<div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-xl border-l-4 border-agonia shadow-sm">
+<h3 class="text-xl font-serif text-gray-900 dark:text-white mb-4">Datos Esenciales</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-800">
+<span class="font-medium text-gray-700 dark:text-gray-300">Fecha:</span>
+<span class="text-agonia font-semibold">Viernes Santo</span>
+</div>
+<div class="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-800">
+<span class="font-medium text-gray-700 dark:text-gray-300">Hora de Salida:</span>
+<span class="text-agonia font-semibold">20:00 horas</span>
+</div>
+<div class="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-800">
+<span class="font-medium text-gray-700 dark:text-gray-300">Lugar de Salida:</span>
+<span class="text-agonia font-semibold text-right">Iglesia de Santa María de Gracia<br><span class="text-sm text-gray-500">(Calle del Aire)</span></span>
+</div>
+<div class="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-800">
+<span class="font-medium text-gray-700 dark:text-gray-300">Duración:</span>
+<span class="text-agonia font-semibold">Aprox. 4 horas</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-medium text-gray-700 dark:text-gray-300">Agrupación:</span>
+<span class="text-agonia font-semibold text-right">Santa Agonía, Vera Cruz<br>y Condena de Jesús</span>
+</div>
+</div>
+</div>
+
+<div class="bg-agonia/5 p-8 rounded-xl border border-agonia/20 shadow-sm">
+<h4 class="text-lg font-serif text-gray-900 dark:text-white mb-3">Recorrido Principal</h4>
+<ul class="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-agonia text-sm mt-0.5">location_on</span>
+<span><strong>Calle Mayor:</strong> Principal arteria del centro histórico</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-agonia text-sm mt-0.5">location_on</span>
+<span><strong>Calle del Carmen:</strong> Vía tradicional de las procesiones</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-agonia text-sm mt-0.5">location_on</span>
+<span><strong>Puertas de Murcia:</strong> Zona emblemática del casco antiguo</span>
+
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Burbujas Interactivas Modernas -->
+<section class="py-16 bg-gradient-to-b from-white to-gray-50 dark:from-background-dark dark:to-gray-900/30">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-serif text-gray-900 dark:text-white mb-4">Patrimonio Procesional</h2>
+<div class="w-16 h-[1px] bg-agonia mx-auto mb-4"></div>
+<p class="mt-4 text-gray-600 dark:text-gray-400 max-w-3xl mx-auto text-lg">Explora los elementos patrimoniales de la agrupación haciendo clic en cada tarjeta</p>
+</div>
+
+<!-- Grid de burbujas modernas - 8 elementos (con Damas) -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 md:gap-6 mb-20">
+<!-- Burbuja 1: Imagen -->
+<div class="modern-bubble bubble-enter floating aspect-square flex items-center justify-center p-4" data-target="imagen">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">IMAGEN</h3>
+</div>
+</div>
+
+<!-- Burbuja 2: Trono -->
+<div class="modern-bubble bubble-enter bubble-delay-1 floating float-delay-1 aspect-square flex items-center justify-center p-4" data-target="trono">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">TRONO</h3>
+</div>
+</div>
+
+<!-- Burbuja 3: Sudario -->
+<div class="modern-bubble bubble-enter bubble-delay-2 floating float-delay-2 aspect-square flex items-center justify-center p-4" data-target="sudario">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">SUDARIO</h3>
+</div>
+</div>
+
+<!-- Burbuja 4: Galas -->
+<div class="modern-bubble bubble-enter bubble-delay-3 floating float-delay-3 aspect-square flex items-center justify-center p-4" data-target="galas">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">GALAS</h3>
+</div>
+</div>
+
+<!-- Burbuja 5: Hachotes -->
+<div class="modern-bubble bubble-enter bubble-delay-4 floating float-delay-4 aspect-square flex items-center justify-center p-4" data-target="hachotes">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">HACHOTES</h3>
+</div>
+</div>
+
+<!-- Burbuja 6: Música -->
+<div class="modern-bubble bubble-enter bubble-delay-5 floating float-delay-5 aspect-square flex items-center justify-center p-4" data-target="musica">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">MÚSICA</h3>
+</div>
+</div>
+
+<!-- Burbuja 7: Vestuario -->
+<div class="modern-bubble bubble-enter bubble-delay-6 floating float-delay-6 aspect-square flex items-center justify-center p-4" data-target="vestuario">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">VESTUARIO</h3>
+</div>
+</div>
+
+<!-- Burbuja 8: Damas -->
+<div class="modern-bubble bubble-enter bubble-delay-7 floating float-delay-7 aspect-square flex items-center justify-center p-4" data-target="damas">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">DAMAS</h3>
+</div>
+</div>
+</div>
+
+<!-- Indicador visual -->
+<div class="text-center">
+<p class="text-sm text-gray-500 dark:text-gray-400 italic">Haz clic en cualquier elemento para ver más detalles</p>
+<div class="mt-4 flex justify-center items-center space-x-2">
+<div class="w-2 h-2 rounded-full bg-agonia"></div>
+<div class="w-2 h-2 rounded-full bg-agonia/50"></div>
+<div class="w-2 h-2 rounded-full bg-agonia/30"></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Modal para mostrar contenido de las burbujas -->
+<div id="patrimonioModal" class="bubble-modal fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white dark:bg-gray-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800">
+<!-- Encabezado del modal -->
+<div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-agonia to-agonia-dark text-white">
+<h3 id="modalTitle" class="text-2xl font-serif">Título</h3>
+<button id="closeModal" class="text-white hover:text-gray-200 hover:bg-white/10 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+
+<!-- Contenido del modal -->
+<div class="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+<div class="grid md:grid-cols-2 gap-8">
+<!-- Carousel de imágenes -->
+<div id="carouselContainer" class="space-y-4">
+<div class="aspect-square rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-lg">
+<img id="carouselImage" src="" alt="" class="w-full h-full object-cover">
+</div>
+<div class="flex justify-between items-center">
+<button id="prevBtn" class="hover-glow p-3 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-agonia hover:text-white transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div id="carouselIndicators" class="flex space-x-2">
+<!-- Los indicadores se generarán con JavaScript -->
+</div>
+<button id="nextBtn" class="hover-glow p-3 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-agonia hover:text-white transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<p id="imageCaption" class="text-sm text-gray-500 dark:text-gray-400 text-center italic mt-2"></p>
+</div>
+
+<!-- Información detallada -->
+<div id="modalContent" class="space-y-4">
+<!-- El contenido se llenará con JavaScript -->
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Botón para volver -->
+<section class="py-12 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<a href="index.html" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-agonia to-agonia-dark text-white rounded-full hover:shadow-lg hover:scale-105 transition-all text-lg font-medium shadow-md">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+Volver al Inicio
+</a>
+</div>
+</section>
+
+</main>
+
+<script>
+// Datos para las burbujas interactivas - 8 elementos (con Damas)
+const patrimonioData = {
+    imagen: {
+        title: "IMAGEN TITULAR",
+        images: [
+            { src: "https://i.postimg.cc/Hn8bFMtP/9.jpg", caption: "Cristo de la Santa Agonía - Vista frontal" },
+            { src: "https://i.postimg.cc/DfSD7Yp2/cristo-cara.jpg", caption: "Detalle del rostro - Obra de Carles Flotats i Galtés" },
+            { src: "https://i.postimg.cc/DwTYdfvS/virgen.jpg", caption: "Virgen de la Amargura - Obra de Efraín Gómez Montón" }
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Santísimo Cristo de la Agonía</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justified">La actual imagen del <strong>Santísimo Cristo de la Agonía</strong> fue tallada en <strong>1942</strong> por el escultor barcelonés <strong>Carles Flotats i Galtés</strong>, por encargo del industrial afincado en Cartagena <strong>Juan Magro Espinosa</strong>.</p>
+            
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justified">Magro, que era natural de Crevillente (Alicante), conocía la obra del taller Flotats porque el padre del escultor había realizado con anterioridad a la Guerra Civil una imagen (la del Cristo de la Victoria) para la localidad alicantina. Tras la contienda, encargó a Carles Flotats una réplica de aquella para Crevillente y también la imagen del Cristo de la Agonía para Cartagena.</p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Año de creación</p>
+                    <p class="text-lg font-medium text-agonia">1942</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Escultor</p>
+                    <p class="text-lg font-medium text-agonia">Carles Flotats i Galtés</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Donante</p>
+                    <p class="text-lg font-medium text-agonia">Juan Magro Espinosa</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Estreno procesional</p>
+                    <p class="text-lg font-medium text-agonia">Viernes Santo 1943</p>
+                </div>
+            </div>
+            
+            <h5 class="font-medium text-gray-900 dark:text-white mb-3">Historia y características</h5>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">schedule</span>
+                    <span><strong>Retraso en la entrega:</strong> El estreno de la imagen estaba previsto para la Semana Santa de 1942, aunque una grave enfermedad del escultor motivó un retraso en la finalización de la misma, que no llegó a Cartagena hasta unos días después de la Semana Santa.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">celebration</span>
+                    <span><strong>Bendición y estreno:</strong> Fue bendecida el <strong>26 de junio de 1942</strong>, y su estreno procesional tuvo lugar el <strong>Viernes Santo de 1943</strong>.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">description</span>
+                    <span><strong>Descripción artística:</strong> Se trata de un Cristo Crucificado de tamaño natural, inspirado en el <strong>Cristo de Limpias (Cantabria)</strong>, que era considerado por los Flotats como la más bella imagen de Cristo.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">visibility</span>
+                    <span><strong>Características:</strong> Es un Cristo vivo, agonizante, clavado con tres clavos a una cruz arbórea, rematada desde <strong>1953</strong> por unas potencias doradas con el escudo de la Agrupación.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">location_on</span>
+                    <span><strong>Culto anual:</strong> Durante el año se encuentra al culto en la <strong>capilla del Colegio Patronato del Sagrado Corazón de Jesús</strong>.</span>
+                </li>
+            </ul>
+            
+            <h5 class="font-medium text-gray-900 dark:text-white mb-3">Virgen de la Amargura</h5>
+            <p class="text-gray-600 dark:text-gray-400 text-justified">Completa el grupo escultórico la <strong>Virgen de la Amargura</strong>, obra de <strong>Efraín Gómez Montón</strong> realizada en <strong>1963</strong> y donada por D. Wenceslao Tarín. Acompaña a Cristo en su dolor, completando la escena de la agonía y representando el realismo sacro característico de la Cofradía Marraja.</p>
+        `
+    },
+    trono: {
+        title: "TRONO PROCESIONAL",
+        images: [
+            { src: "https://i.postimg.cc/QCcJH5W5/VS-16.jpg", caption: "Trono de la Santa Agonía - Vista lateral" },
+            { src: "https://i.postimg.cc/xTyPQv26/trono-a-1.jpg", caption: "Detalle de las capillas del Vía Crucis" },
+            { src: "https://i.postimg.cc/K80rkm4C/trono-a-4.jpg", caption: "Detalle del escudo de la Cofradía" }
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Trono Neogótico en Plata</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justified">El trono de la Santa Agonía es una obra maestra de la orfebrería procesional que porta las imágenes titulares durante el recorrido del Viernes Santo:</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Constructor:</strong> Casa Orrico de Valencia, especializada en orfebrería religiosa</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Estreno:</strong> 1970, sustituyendo al trono anterior</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Plateado integral:</strong> 1997, recuperando su esplendor original</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Estilo arquitectónico:</strong> Neogótico en plata repujada</span>
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-justified"><strong>Capillas laterales:</strong> 14 capillas con escenas del Vía Crucis realizadas en plata repujada, representando cada una de las estaciones del camino al Calvario.</p>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-justified"><strong>Peana superior:</strong> Motivos de las Siete Palabras que Cristo pronunció en la cruz, bordados en oro sobre terciopelo morado.</p>
+            <p class="text-gray-600 dark:text-gray-400 text-justified"><strong>Frontal principal:</strong> Corazón con cinco puñales, alegoría de la Virgen de la Amargura y los dolores que sufrió durante la Pasión de su Hijo.</p>
+        `
+    },
+    sudario: {
+        title: "SUDARIO PROCESIONAL",
+        images: [
+            { src: "https://i.postimg.cc/44vcHXSt/Viernes-Santo-2023-28.jpg", caption: "Sudario de la  Agonía" },
+            { src: "https://i.postimg.cc/m2RQmPHp/sudario-agonia.jpg", caption: "Detalle de los bordados en oro" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Sudario del Cristo</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justified">El sudario es una pieza textil de gran valor artístico y simbólico que forma parte del ajuar procesional de la agrupación:</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Material principal:</strong> Terciopelo morado de alta calidad, color litúrgico de la penitencia</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Técnica de bordado:</strong> Realizados en hilo de oro y sedas policromadas, siguiendo técnicas tradicionales</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Diseño iconográfico:</strong> Símbolos de la Pasión de Cristo (corona de espinas, clavos, lanza, escalera, etc.)</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Realización:</strong> Talleres de bordado de la Cofradía Marraja, manteniendo la tradición artesanal</span>
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-justified"><strong>Simbología bíblica:</strong> Representa el paño con el que José de Arimatea envolvió el cuerpo de Cristo después de su descendimiento de la cruz, según la tradición evangélica.</p>
+            <p class="text-gray-600 dark:text-gray-400 text-justified"><strong>Uso procesional:</strong> Colocado en la parte delantera del trono durante la procesión, cubriendo parcialmente la peana donde se sitúa la imagen del Cristo, recordando el momento del entierro.</p>
+        `
+    },
+    galas: {
+        title: "GALAS DEL TRONO",
+        images: [
+            { src: "https://i.postimg.cc/gj4rSkCt/Viernes-Santo-2023-20.jpg", caption: "Gala con escudo de la agrupación" },
+            { src: "https://i.postimg.cc/Ghh4BGYb/Viernes-Santo-2023-31.jpg", caption: "Detalle de bordado en oro de las Siete Palabras" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Galas Bordadas en Oro</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justified">El trono cuenta con once galas bordadas que enriquecen artísticamente la estructura y completan la iconografía de la Pasión:</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Total de galas:</strong> 11 galas distribuidas en los laterales del trono</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Tres galas (1999):</strong> Bordadas por Dª. Antonia Sánchez según diseño de D. José Ramón Ballesta, con motivos vegetales y geométricos</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Una gala especial:</strong> Con el escudo de la agrupación california de San Pedro, estableciendo vínculos de hermandad</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Siete galas temáticas:</strong> Con las siete palabras que Cristo pronunció antes de morir, cada una identificada con su correspondiente cita evangélica</span>
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-justified"><strong>Materiales empleados:</strong> Terciopelo morado bordado con hilos de oro, plata y sedas de colores, utilizando técnicas de bordado en relieve.</p>
+            <p class="text-gray-600 dark:text-gray-400 text-justified"><strong>Función procesional:</strong> Distribuidas en los laterales del trono, aportan vistosidad durante el recorrido nocturno y completan la narrativa visual de la Pasión a través de sus motivos bordados.</p>
+        `
+    },
+    hachotes: {
+        title: "HACHOTES PROCESIONALES",
+        images: [
+            { src: "https://i.postimg.cc/wBKxkmtL/Viernes-Santo-2008-(11).jpg", caption: "Hachote procesional encendido" },
+            { src: "https://i.postimg.cc/9XxWnS4k/Viernes-Santo-2022-(5).jpg", caption: "Hachotes en formación durante la procesión" }
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Hachotes con Sistema Eléctrico</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justified">Los hachotes de la Santa Agonía son elementos pioneros en la iluminación procesional, siendo de los primeros en incorporar sistema eléctrico:</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Donante:</strong> D. Juan Magro Espinosa (1950), benefactor de la agrupación</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Constructor:</strong> D. Rafael Baillo, artesano local especializado</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Dimensiones:</strong> 155 cm de altura, aproximadamente 10 kg de peso cada uno</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Sistema de iluminación:</strong> Baterías eléctricas internas (sistema pionero en su época, 1950)</span>
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-justified"><strong>Diseño ornamental:</strong> Base de metal plateado con detalles ornamentales neogóticos, rematado con un farol de cristal que alberga la bombilla, creando un efecto de luz difusa.</p>
+            <p class="text-gray-600 dark:text-gray-400 text-justified"><strong>Uso procesional:</strong> Portados por los hermanos que flanquean el trono, iluminan el camino durante la procesión nocturna del Viernes Santo y crean un ambiente de recogimiento y solemnidad acorde con el momento litúrgico.</p>
+        `
+    },
+    musica: {
+        title: "ACOMPAÑAMIENTO MUSICAL",
+        images: [
+            { src: "https://i.postimg.cc/hv2NZHpV/Viernes-Santo-2023-15.jpg", caption: "Banda Villa de Fuente Álamo" },
+            { src: "https://i.postimg.cc/bw5pw205/partitura.jpg", caption: "Partitura de la marcha 'Santa Agonía'" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Música Procesional</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justified">La agrupación es acompañada musicalmente por una de las bandas más emblemáticas de la Región de Murcia, que contribuye a crear la atmósfera adecuada para la procesión:</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Banda titular:</strong> Banda Villa de Fuente Álamo, con amplia tradición en la Semana Santa cartagenera</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Marcha propia:</strong> "Santa Agonía" compuesta en 1946 específicamente para esta agrupación</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Compositor:</strong> José González Jiménez, músico y compositor local</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Acompañamiento histórico:</strong> Desde 1958 de forma ininterrumpida, excepto durante la pandemia</span>
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-justified"><strong>Características musicales:</strong> La marcha "Santa Agonía" es de tempo lento y carácter solemne, con armonías graves que transmiten la profundidad del momento litúrgico que representa.</p>
+            <p class="text-gray-600 dark:text-gray-400 text-justified"><strong>Repertorio completo:</strong> Además de su marcha propia, la banda interpreta otras marchas fúnebres y pasodobles durante el recorrido, adaptándose a los diferentes momentos de la procesión y creando variedad musical a lo largo del trayecto.</p>
+        `
+    },
+    vestuario: {
+        title: "VESTUARIO PROCESIONAL",
+        images: [
+            { src: "https://i.postimg.cc/wjDYgbvt/Viernes-Santo-2023-27.jpg", caption: "Túnica y capuz morados con capa blanca" },
+            { src: "https://i.postimg.cc/xdRrbJMP/escudo-capa-edited2.jpg", caption: "Detalle de los bordados en oro de la capa" },
+            { src: "https://i.postimg.cc/rmFBGV9X/Viernes-Santo-2023-08.jpg", caption: "Complementos: sandalias, guantes y fajín" }
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Vestuario de la Agrupación</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justified">El vestuario de la Santa Agonía combina tradición, elegancia y simbolismo litúrgico, creando una imagen uniforme y solemne durante la procesión:</p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-agonia text-white p-4 rounded-xl shadow-sm">
+                    <p class="font-medium mb-1">LILA/MORADO</p>
+                    <p class="text-sm opacity-90">Túnica y capuz</p>
+                </div>
+                <div class="bg-white border border-gray-300 p-4 rounded-xl shadow-sm">
+                    <p class="font-medium text-gray-900 dark:text-white mb-1">BLANCO</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Capa y fajín</p>
+                </div>
+            </div>
+            
+            <h5 class="font-medium text-gray-900 dark:text-white mb-3">Componentes del Vestuario</h5>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Túnica y capuz:</strong> Color lila/morado, de tejido de calidad, que cubre completamente al hermano</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Capa y fajín:</strong> Color blanco con bordados en oro que realzan la solemnidad del conjunto</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Complementos:</strong> Sandalias y guantes negros, calcetín blanco, siguiendo la normativa de la Cofradía</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Artífices de los bordados:</strong> Capas bordadas por Dª. Isabel Manrubia, fajines por Dª. Anita Vivancos</span>
+                </li>
+            </ul>
+            
+            <p class="text-gray-600 dark:text-gray-400 text-justified"><strong>Simbolismo litúrgico:</strong> El color morado representa la penitencia y el luto propios del Viernes Santo, mientras que el blanco simboliza la pureza y la esperanza en la resurrección, creando una dualidad cromática que resume el misterio pascual.</p>
+        `
+    },
+    damas: {
+        title: "JUNTA DE DAMAS",
+        images: [
+            { src: "https://i.postimg.cc/MKrh7Jcn/Viernes-Santo-2023-09.jpg", caption: "Junta de Damas del Santísimo Cristo de la Agonía" },
+            { src: "https://i.postimg.cc/1tPTm9Th/damas-2.jpg", caption: "Actividades y cultos organizados por la Junta de Damas" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Junta de Damas del Santísimo Cristo de la Agonía</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justified">Al igual que otras muchas agrupaciones de la Semana Santa cartagenera, la nuestra cuenta en su seno con un colectivo de señoras, la <strong>Junta de Damas del Santísimo Cristo de la Agonía</strong>, que creada en <strong>1980</strong>, desempeña una importante labor tanto en la organización de los cultos como en la obra social de la agrupación, siempre bajo la coordinación de lo dispuesto por la Cofradía Marraja.</p>
+            
+            <h5 class="font-medium text-gray-900 dark:text-white mb-3">Funciones y Actividades</h5>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Acompañamiento procesional:</strong> Nuestra Junta de Damas acompaña desde <strong>1983</strong> al Cristo de la Agonía en la procesión del Santo Entierro.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Cultos y actividades:</strong> Organiza cada año una misa en honor a la <strong>Santísima Virgen de la Amargura</strong> en el mes de mayo y su aportación resulta fundamental en los preparativos previos de las procesiones.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-agonia text-sm mt-0.5">check</span>
+                    <span><strong>Obra social:</strong> Tiene entre sus prioridades la colaboración con la <strong>Fundación Marraja</strong> en la atención que ésta presta a las personas acogidas por la misma.</span>
+                </li>
+            </ul>
+            
+            <h5 class="font-medium text-gray-900 dark:text-white mb-3">Presidentas de la Junta de Damas</h5>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Primera Presidenta</p>
+                    <p class="text-sm font-medium text-agonia">María Luisa<br>Ramón Ballesta</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Posteriormente</p>
+                    <p class="text-sm font-medium text-agonia">María del Carmen<br>Maestre</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Posteriormente</p>
+                    <p class="text-sm font-medium text-agonia">Salvadora<br>Vidal Solano</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Actual Presidenta</p>
+                    <p class="text-sm font-medium text-agonia">Cariluz<br>García Vicente</p>
+                </div>
+            </div>
+            
+            <p class="text-gray-600 dark:text-gray-400 text-justified"><strong>Importancia en la agrupación:</strong> La Junta de Damas constituye un pilar fundamental en la vida de la agrupación, aportando no solo organización y dedicación en los aspectos logísticos y devocionales, sino también manteniendo viva la tradición y el espíritu de servicio que caracteriza a la Cofradía Marraja.</p>
+        `
+    }
+};
+
+// Variables para el carousel
+let currentItem = 'imagen';
+let currentImageIndex = 0;
+
+// Elementos del DOM
+const modal = document.getElementById('patrimonioModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalContent = document.getElementById('modalContent');
+const carouselImage = document.getElementById('carouselImage');
+const imageCaption = document.getElementById('imageCaption');
+const carouselIndicators = document.getElementById('carouselIndicators');
+const closeModal = document.getElementById('closeModal');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+// Funciones para manejar el modal
+function openModal(itemId) {
+    currentItem = itemId;
+    currentImageIndex = 0;
+    
+    const data = patrimonioData[itemId];
+    modalTitle.textContent = data.title;
+    modalContent.innerHTML = data.content;
+    
+    // Cargar la primera imagen
+    updateCarousel();
+    
+    // Mostrar modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModalFunc() {
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function updateCarousel() {
+    const data = patrimonioData[currentItem];
+    const imageData = data.images[currentImageIndex];
+    
+    carouselImage.src = imageData.src;
+    carouselImage.alt = imageData.caption;
+    imageCaption.textContent = imageData.caption;
+    
+    // Actualizar indicadores
+    carouselIndicators.innerHTML = '';
+    data.images.forEach((_, index) => {
+        const indicator = document.createElement('div');
+        indicator.className = `w-3 h-3 rounded-full cursor-pointer ${index === currentImageIndex ? 'bg-agonia' : 'bg-gray-300 dark:bg-gray-700'}`;
+        indicator.addEventListener('click', () => {
+            currentImageIndex = index;
+            updateCarousel();
+        });
+        carouselIndicators.appendChild(indicator);
+    });
+}
+
+function nextImage() {
+    const data = patrimonioData[currentItem];
+    currentImageIndex = (currentImageIndex + 1) % data.images.length;
+    updateCarousel();
+}
+
+function prevImage() {
+    const data = patrimonioData[currentItem];
+    currentImageIndex = (currentImageIndex - 1 + data.images.length) % data.images.length;
+    updateCarousel();
+}
+
+// Event Listeners
+document.querySelectorAll('.modern-bubble').forEach(bubble => {
+    bubble.addEventListener('click', () => {
+        const target = bubble.getAttribute('data-target');
+        openModal(target);
+    });
+});
+
+closeModal.addEventListener('click', closeModalFunc);
+prevBtn.addEventListener('click', prevImage);
+nextBtn.addEventListener('click', nextImage);
+
+// Cerrar modal al hacer clic fuera del contenido
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        closeModalFunc();
+    }
+});
+
+// Cerrar modal con tecla ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModalFunc();
+    }
+});
+
+// Añadir efecto de sonido sutil al hacer clic (opcional)
+document.querySelectorAll('.modern-bubble').forEach(bubble => {
+    bubble.addEventListener('click', () => {
+        // Pequeña animación de pulso al hacer clic
+        bubble.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            bubble.style.transform = '';
+        }, 150);
+    });
+});
+</script>
+</body>
+</html>

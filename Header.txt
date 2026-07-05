@@ -1,0 +1,347 @@
+<!-- ============================================================
+     HEADER — Agrupación Santa Agonía
+     Pega este bloque completo en el campo "HTML personalizado"
+     del header de ONE.com
+============================================================ -->
+
+<!-- Fuentes -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+
+<!-- Estilos del header (con animación suave en el dropdown) -->
+<style>
+  #sh{
+    position:fixed;top:0;left:0;right:0;z-index:9999;
+    height:68px;background:#fff;
+    border-bottom:1px solid rgba(65,24,115,.10);
+    transition:box-shadow .3s,height .3s;
+  }
+  #sh.scrolled{height:58px;box-shadow:0 2px 16px rgba(65,24,115,.09);}
+  #sh .in{
+    width:100%;max-width:1280px;margin:0 auto;
+    padding:0 1.5rem;height:100%;
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  }
+  #sh .logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0;}
+  #sh .logo img{height:44px;width:auto;display:block;transition:transform .3s,opacity .3s;}
+  #sh .logo:hover img{transform:scale(1.06);opacity:.88;}
+
+  /* Nav escritorio */
+  #sh nav{display:flex;align-items:center;gap:.1rem;flex:1;justify-content:flex-end;}
+  #sh nav a, #sh nav .dropbtn{
+    position:relative;padding:.45rem .7rem;
+    font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;
+    letter-spacing:.055em;text-transform:uppercase;
+    color:#4b5563;text-decoration:none;border-radius:6px;white-space:nowrap;
+    transition:color .2s,background .2s;
+    background:transparent;border:none;cursor:pointer;
+  }
+  #sh nav a::after, #sh nav .dropbtn::after{
+    content:'';position:absolute;bottom:3px;left:50%;
+    width:0;height:1.5px;background:#411873;border-radius:2px;
+    transform:translateX(-50%);transition:width .25s;
+  }
+  #sh nav a:hover, #sh nav .dropbtn:hover{color:#411873;background:rgba(65,24,115,.06);}
+  #sh nav a:hover::after, #sh nav .dropbtn:hover::after{width:calc(100% - 1.4rem);}
+  #sh nav a.on, #sh nav .dropbtn.on{color:#411873;font-weight:700;}
+  #sh nav a.on::after, #sh nav .dropbtn.on::after{width:calc(100% - 1.4rem);}
+
+  /* Dropdown en escritorio - CON ANIMACIÓN SUAVE */
+  #sh nav .dropdown{position:relative;display:inline-block;}
+  #sh nav .dropdown-content{
+    opacity:0;
+    visibility:hidden;
+    transform:translateX(-50%) translateY(-10px);
+    position:absolute;top:100%;left:50%;
+    background:#fff;border-radius:8px;box-shadow:0 8px 20px rgba(65,24,115,.15);
+    min-width:160px;padding:.5rem 0;border:1px solid rgba(65,24,115,.1);
+    z-index:10000;
+    transition:opacity .25s ease, transform .25s ease, visibility .25s;
+    pointer-events:none;
+  }
+  #sh nav .dropdown:hover .dropdown-content{
+    opacity:1;
+    visibility:visible;
+    transform:translateX(-50%) translateY(0);
+    pointer-events:auto;
+  }
+  #sh nav .dropdown-content a{
+    display:block;padding:.6rem 1.2rem;font-size:.75rem;font-weight:500;
+    color:#374151;text-decoration:none;transition:background .2s,color .2s;
+    white-space:nowrap;text-transform:none;letter-spacing:normal;
+  }
+  #sh nav .dropdown-content a:hover{background:rgba(65,24,115,.07);color:#411873;}
+  #sh nav .dropdown-content a.on{background:rgba(65,24,115,.09);color:#411873;font-weight:700;}
+
+  /* Hamburguesa */
+  #sh .hbg{
+    display:none;width:40px;height:40px;border:none;cursor:pointer;
+    background:transparent;flex-direction:column;align-items:center;
+    justify-content:center;gap:5px;border-radius:8px;padding:8px;
+    flex-shrink:0;transition:background .2s;
+  }
+  #sh .hbg:hover{background:rgba(65,24,115,.07);}
+  #sh .hbg span{
+    display:block;width:22px;height:2px;background:#411873;border-radius:2px;
+    transition:transform .3s,opacity .25s,width .3s;transform-origin:center;
+  }
+  #sh .hbg.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  #sh .hbg.open span:nth-child(2){opacity:0;width:0;}
+  #sh .hbg.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  /* Menú móvil desplegable */
+  #sh-m{
+    position:fixed;top:68px;left:0;right:0;z-index:9998;
+    background:#fff;border-bottom:1px solid rgba(65,24,115,.10);
+    box-shadow:0 8px 32px rgba(65,24,115,.12);
+    max-height:0;overflow:hidden;
+    transition:max-height .38s cubic-bezier(.4,0,.2,1);
+  }
+  #sh-m.open{max-height:680px;}
+  #sh-m .mi{padding:.65rem .85rem 1.1rem;display:flex;flex-direction:column;gap:.15rem;}
+  #sh-m a{
+    display:flex;align-items:center;gap:.9rem;padding:.78rem .95rem;
+    border-radius:10px;font-family:'Inter',sans-serif;
+    font-size:.9rem;font-weight:500;color:#374151;text-decoration:none;
+    border-left:2.5px solid transparent;
+    transition:background .18s,color .18s,border-color .18s,padding-left .18s;
+  }
+  #sh-m a:hover{background:rgba(65,24,115,.07);color:#411873;border-left-color:#411873;padding-left:1.2rem;}
+  #sh-m a.on{background:rgba(65,24,115,.09);color:#411873;font-weight:700;border-left-color:#411873;}
+  #sh-m .sep{height:1px;background:rgba(65,24,115,.07);margin:.35rem .4rem;}
+
+  /* Submenú en móvil */
+  #sh-m .mobile-sub{overflow:hidden;max-height:0;transition:max-height .3s ease;margin-left:1.2rem;}
+  #sh-m .mobile-sub.open{max-height:300px;}
+  #sh-m .mobile-sub a{padding:.6rem .95rem .6rem 1.8rem;font-size:.85rem;}
+  #sh-m .parent-item{display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+  #sh-m .parent-item span{flex:1;}
+  #sh-m .parent-item .arrow{font-size:1.2rem;transition:transform .3s;margin-right:.5rem;}
+  #sh-m .parent-item.open .arrow{transform:rotate(90deg);}
+
+  /* Overlay oscuro al abrir móvil */
+  #sh-ov{
+    display:none;position:fixed;inset:0;z-index:9997;
+    background:rgba(0,0,0,.22);opacity:0;transition:opacity .3s;
+  }
+  #sh-ov.on{opacity:1;}
+
+  @media(max-width:920px){#sh nav{display:none;}#sh .hbg{display:flex;}}
+</style>
+
+<!-- HTML del header -->
+<header id="sh">
+  <div class="in">
+    <a href="https://santaagonia.es/index.html" class="logo" aria-label="Agrupación Santa Agonía">
+      <img src="https://i.postimg.cc/Hs6nSs8k/Agonia.png" alt="Logo Santa Agonía"/>
+    </a>
+    <nav id="sh-nav" aria-label="Navegación principal"></nav>
+    <button class="hbg" id="sh-hbg" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Menú móvil -->
+<div id="sh-m"><div class="mi" id="sh-mi"></div></div>
+
+<!-- Overlay -->
+<div id="sh-ov"></div>
+
+<!-- Script -->
+<script>
+(function(){
+
+  /* ============================================================
+     ▼▼▼  AQUÍ SE CAMBIAN LOS ENLACES  ▼▼▼
+     Para añadir, quitar o renombrar páginas, edita este array.
+     Los items con 'children' crean un desplegable.
+       label → texto visible
+       href  → URL completa (solo para items sin hijos)
+       children → array de subitems (con label y href)
+  ============================================================ */
+  var L=[
+    {label:"Inicio",    href:"https://santaagonia.es/index.html"},
+    {label:"Historia",  href:"https://santaagonia.es/historia.html"},
+    {label:"Tercios", children: [
+      {label:"Agonía", href:"https://santaagonia.es/santa_agonia.html"},
+      {label:"Vera Cruz", href:"https://santaagonia.es/vera_cruz.html"},
+      {label:"Condena de Jesús", href:"https://santaagonia.es/condena_de_jesus.html"}
+    ]},
+    {label:"Actos",     href:"https://santaagonia.es/actos.html"},
+    /* -- separador en móvil -- */
+    {label:"Multimedia",href:"https://santaagonia.es/multimedia-1.html"},
+    {label:"Documentos",href:"https://santaagonia.es/documentos.html"},
+    {label:"Directiva", href:"https://santaagonia.es/directiva.html"},
+    {label:"Contacto",  href:"https://santaagonia.es/contacto.html"}
+  ];
+  /* ▲▲▲  FIN  ▲▲▲ */
+
+  var SEP = 4; // El separador aparece ANTES del elemento en índice 4 (Multimedia)
+
+  var pg = location.pathname.split('/').pop() || 'index.html';
+  function act(href) {
+    return href === pg || (pg === '' && href === 'index.html');
+  }
+
+  // Función para comprobar si algún hijo está activo
+  function childActive(item) {
+    if (!item.children) return false;
+    return item.children.some(child => act(child.href));
+  }
+
+  // ========== MENÚ ESCRITORIO ==========
+  var dn = document.getElementById('sh-nav');
+  L.forEach(function(item){
+    if (item.children) {
+      // Crear contenedor dropdown
+      var dropdown = document.createElement('div');
+      dropdown.className = 'dropdown';
+
+      // Botón del padre
+      var btn = document.createElement('button');
+      btn.className = 'dropbtn';
+      btn.textContent = item.label;
+      if (childActive(item)) btn.classList.add('on');
+      dropdown.appendChild(btn);
+
+      // Contenedor del submenú
+      var content = document.createElement('div');
+      content.className = 'dropdown-content';
+      item.children.forEach(function(child){
+        var a = document.createElement('a');
+        a.href = child.href;
+        a.textContent = child.label;
+        if (act(child.href)) a.classList.add('on');
+        content.appendChild(a);
+      });
+      dropdown.appendChild(content);
+      dn.appendChild(dropdown);
+    } else {
+      var a = document.createElement('a');
+      a.href = item.href;
+      a.textContent = item.label;
+      if (act(item.href)) a.classList.add('on');
+      dn.appendChild(a);
+    }
+  });
+
+  // ========== MENÚ MÓVIL (con acordeón) ==========
+  var mn = document.getElementById('sh-mi');
+  L.forEach(function(item, idx){
+    // Insertar separador si corresponde
+    if (idx === SEP) {
+      var s = document.createElement('div');
+      s.className = 'sep';
+      mn.appendChild(s);
+    }
+
+    if (item.children) {
+      // Contenedor del padre en móvil
+      var parentDiv = document.createElement('div');
+      parentDiv.className = 'mobile-parent';
+
+      // Cabecera clickeable
+      var parentHeader = document.createElement('div');
+      parentHeader.className = 'parent-item';
+      parentHeader.innerHTML = '<span>' + item.label + '</span><span class="arrow">▶</span>';
+      parentDiv.appendChild(parentHeader);
+
+      // Submenú
+      var subDiv = document.createElement('div');
+      subDiv.className = 'mobile-sub';
+      if (childActive(item)) subDiv.classList.add('open'); // abrir si algún hijo activo
+
+      item.children.forEach(function(child){
+        var a = document.createElement('a');
+        a.href = child.href;
+        a.innerHTML = '<span>' + child.label + '</span>';
+        if (act(child.href)) a.classList.add('on');
+        a.addEventListener('click', close); // cerrar al hacer clic
+        subDiv.appendChild(a);
+      });
+      parentDiv.appendChild(subDiv);
+
+      // Evento toggle
+      parentHeader.addEventListener('click', function(e){
+        e.stopPropagation();
+        subDiv.classList.toggle('open');
+        parentHeader.classList.toggle('open');
+        // Ajustar altura del menú principal
+        var mobileContainer = document.getElementById('sh-m');
+        if (mobileContainer.classList.contains('open')) {
+          mobileContainer.style.maxHeight = 'none';
+          var h = mobileContainer.scrollHeight + 'px';
+          mobileContainer.style.maxHeight = h;
+        }
+      });
+
+      // Si algún hijo está activo, marcamos el padre como abierto y con clase on
+      if (childActive(item)) {
+        parentHeader.classList.add('on');
+        parentHeader.classList.add('open'); // abrir por defecto
+      }
+
+      mn.appendChild(parentDiv);
+    } else {
+      var a = document.createElement('a');
+      a.href = item.href;
+      a.innerHTML = '<span>' + item.label + '</span>';
+      if (act(item.href)) a.classList.add('on');
+      a.addEventListener('click', close);
+      mn.appendChild(a);
+    }
+  });
+
+  // ========== SCROLL ==========
+  var hdr = document.getElementById('sh');
+  var mob = document.getElementById('sh-m');
+  var ov = document.getElementById('sh-ov');
+  function syncTop(){ mob.style.top = hdr.offsetHeight + 'px'; }
+  window.addEventListener('scroll', function(){
+    hdr.classList.toggle('scrolled', scrollY > 20);
+    syncTop();
+  }, {passive: true});
+  if (window.ResizeObserver) new ResizeObserver(syncTop).observe(hdr);
+
+  // ========== ABRIR/CERRAR MENÚ MÓVIL ==========
+  var btn = document.getElementById('sh-hbg');
+  var open = false;
+  function openM() {
+    open = true;
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    mob.classList.add('open');
+    ov.style.display = 'block';
+    requestAnimationFrame(function(){ ov.classList.add('on'); });
+    document.body.style.overflow = 'hidden';
+    // Ajustar altura máxima para que se vean todos los submenús abiertos
+    var h = mob.scrollHeight + 'px';
+    mob.style.maxHeight = h;
+  }
+  function close() {
+    open = false;
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    mob.classList.remove('open');
+    ov.classList.remove('on');
+    setTimeout(function(){ if(!open) ov.style.display = 'none'; }, 320);
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', function(){ open ? close() : openM(); });
+  ov.addEventListener('click', close);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && open) close(); });
+
+  // Reajustar max-height al abrir/cerrar submenús en móvil
+  function adjustMobileHeight() {
+    if (mob.classList.contains('open')) {
+      mob.style.maxHeight = 'none';
+      var h = mob.scrollHeight + 'px';
+      mob.style.maxHeight = h;
+    }
+  }
+  var observer = new MutationObserver(adjustMobileHeight);
+  observer.observe(mn, { childList: true, subtree: true, attributes: false });
+
+})();
+</script>

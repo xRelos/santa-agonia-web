@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vera Cruz - Cofradía Marraja</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "veracruz": "#5d249e",
+                    "veracruz-light": "#7a3fbf",
+                    "veracruz-dark": "#4a1c85",
+                    "blanco": "#FFFFFF",
+                    "cardenal": "#9B1B30",
+                    "pergamino": "#F5E6D3",
+                    "background-light": "#ffffff",
+                    "background-dark": "#120a1a",
+                },
+                fontFamily: {
+                    "display": ["Inter", "sans-serif"],
+                    "serif": ["Playfair Display", "serif"]
+                },
+                borderRadius: {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+            },
+        },
+    }
+</script>
+<style>
+    .grayscale-img {
+        filter: grayscale(100%);
+        transition: filter 0.5s ease;
+    }
+    .grayscale-img:hover {
+        filter: grayscale(0%);
+    }
+    .badge-veracruz {
+        background-color: #5d249e;
+        color: #FFFFFF;
+        border: 1px solid #5d249e;
+    }
+    .bubble-modal {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .bubble-modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    .modern-bubble {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        background: linear-gradient(145deg, #7a3fbf 0%, #4a1c85 100%);
+        box-shadow: 0 10px 30px rgba(93, 36, 158, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .modern-bubble::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(135deg,
+                    rgba(255,255,255,0.1) 0%,
+                    rgba(255,255,255,0.05) 50%,
+                    rgba(255,255,255,0) 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    .modern-bubble::after {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%;
+        width: 200%; height: 200%;
+        background: radial-gradient(circle,
+                    rgba(255,255,255,0.1) 0%,
+                    rgba(255,255,255,0.05) 30%,
+                    rgba(255,255,255,0) 70%);
+        transform: scale(0.5);
+        opacity: 0;
+        transition: all 0.6s ease;
+    }
+    .modern-bubble:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 20px 40px rgba(93, 36, 158, 0.4),
+                    0 0 0 1px rgba(255, 255, 255, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        background: linear-gradient(145deg, #8f5fd6 0%, #5a2a9e 100%);
+    }
+    .modern-bubble:hover::before { opacity: 1; }
+    .modern-bubble:hover::after { transform: scale(1); opacity: 1; }
+
+    .bubble-text {
+        position: relative;
+        z-index: 2;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        letter-spacing: 1px;
+        font-weight: 700;
+    }
+
+    @keyframes bubbleEnter {
+        0%   { opacity: 0; transform: translateY(30px) scale(0.8); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .bubble-enter { animation: bubbleEnter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    .bubble-delay-1 { animation-delay: 0.1s; }
+    .bubble-delay-2 { animation-delay: 0.2s; }
+    .bubble-delay-3 { animation-delay: 0.3s; }
+    .bubble-delay-4 { animation-delay: 0.4s; }
+    .bubble-delay-5 { animation-delay: 0.5s; }
+    .bubble-delay-6 { animation-delay: 0.6s; }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+    .hover-glow { transition: all 0.3s ease; }
+    .hover-glow:hover { box-shadow: 0 0 20px rgba(93, 36, 158, 0.5); }
+
+    @media (max-width: 640px) {
+        .modern-bubble { border-radius: 16px; }
+    }
+    .text-justify { text-align: justify; }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<main class="pt-4">
+
+<!-- Hero Section -->
+<section class="py-20 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<span class="badge-veracruz px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase mb-4 inline-block">Agrupación de la Santa Agonía, Vera Cruz y Condena de Jesús</span>
+<h1 class="text-5xl md:text-7xl font-serif text-gray-900 dark:text-white mb-6">Tercio de la Vera Cruz</h1>
+<div class="w-20 h-[1px] bg-veracruz mx-auto mb-8"></div>
+<p class="max-w-2xl mx-auto text-gray-500 dark:text-gray-400 font-serif italic text-lg leading-relaxed text-center">
+    Fundada en 1956. Procesiona en la tarde del Sábado Santo.
+</p>
+</div>
+</section>
+
+<!-- Imagen Principal -->
+<section class="py-8 bg-white dark:bg-background-dark">
+<div class="max-w-4xl mx-auto px-6">
+<div class="aspect-[16/9] rounded-lg overflow-hidden shadow-xl grayscale-img">
+<img src="https://i.postimg.cc/s2y73LDD/Whats_App_Image_2026_01_20_at_21_30_10_(3).jpg"
+     alt="Procesión del Tercio de la Vera Cruz por las calles de Cartagena en Sábado Santo"
+     class="w-full h-full object-cover">
+</div>
+<p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-4 italic">Tercio Vera Cruz - Tarde del Sábado Santo</p>
+</div>
+</section>
+
+<!-- Información General -->
+<section class="py-16 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6">
+<div class="grid lg:grid-cols-2 gap-12 items-start mb-16">
+<div class="space-y-8">
+<h2 class="text-3xl font-serif text-gray-900 dark:text-white">Significado de la Procesión</h2>
+<div class="space-y-6 text-gray-600 dark:text-gray-400 leading-relaxed text-justify">
+<p>
+    El tercio de la <strong class="text-veracruz">Vera Cruz</strong> se fundó en el año <strong>1956</strong> siendo presidente de la agrupación <strong>D. Wenceslao Tarín</strong>, procesionó por primera vez en la tarde del <strong>Sábado Santo de 1959</strong>, siendo en la actualidad un <strong>tercio mixto</strong>.
+</p>
+<p>
+    La salida se realiza a las <strong>19:00 horas</strong> desde la <strong>Iglesia de Santa María de Gracia</strong>, situada en la <strong>Calle del Aire</strong>. Representa el momento de la <strong>Crucifixión</strong> y la exposición del Santo Lignum Crucis, completando el ciclo de los tres tercios que componen la Agrupación.
+</p>
+</div>
+</div>
+<div class="space-y-6">
+<h3 class="text-xl font-serif text-gray-900 dark:text-white mb-4">Datos Esenciales</h3>
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border-l-4 border-veracruz">
+<p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Fundación</p>
+<p class="text-sm font-medium">1956</p>
+</div>
+<div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border-l-4 border-veracruz">
+<p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Primera Procesión</p>
+<p class="text-sm font-medium">1959</p>
+</div>
+<div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border-l-4 border-veracruz">
+<p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Procesión</p>
+<p class="text-sm font-medium">Sábado Santo (tarde)</p>
+</div>
+<div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border-l-4 border-veracruz">
+<p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Característica</p>
+<p class="text-sm font-medium">Tercio mixto</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Recorrido Procesional -->
+<div class="bg-veracruz/5 p-8 rounded-xl border border-veracruz/20 shadow-sm mt-8">
+<h4 class="text-lg font-serif text-gray-900 dark:text-white mb-3">Recorrido Procesional del Sábado Santo</h4>
+<ol class="space-y-2 text-sm text-gray-600 dark:text-gray-400 list-none">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">location_on</span>
+<span><strong>Salida</strong> desde Iglesia de Santa María de Gracia</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>San Miguel</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Campos</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>San Francisco</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Plaza San Ginés</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Duque</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Plaza de Risueño</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Caridad</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Serreta</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Plaza López Pinto</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Parque</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Santa Florentina</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Puertas de Murcia</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Plaza de San Sebastián</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Mayor</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">arrow_forward</span>
+<span>Cañón</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-veracruz text-sm mt-0.5">location_on</span>
+<span><strong>Retorno</strong> a la Iglesia de Santa María de Gracia</span>
+</li>
+</ol>
+</div>
+
+</div>
+</section>
+
+<!-- Burbujas Interactivas Modernas -->
+<section class="py-16 bg-gradient-to-b from-white to-gray-50 dark:from-background-dark dark:to-gray-900/30">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-serif text-gray-900 dark:text-white mb-4">Patrimonio Procesional</h2>
+<div class="w-16 h-[1px] bg-veracruz mx-auto mb-4"></div>
+<p class="mt-4 text-gray-600 dark:text-gray-400 max-w-3xl mx-auto text-lg text-center">Explora todos los elementos de la agrupación haciendo clic en cada tarjeta</p>
+</div>
+
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 md:gap-6 mb-20">
+<div class="modern-bubble bubble-enter aspect-square flex items-center justify-center p-4" data-target="imagen">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">IMAGEN</h3>
+</div>
+</div>
+<div class="modern-bubble bubble-enter bubble-delay-1 aspect-square flex items-center justify-center p-4" data-target="trono">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">TRONO</h3>
+</div>
+</div>
+<div class="modern-bubble bubble-enter bubble-delay-2 aspect-square flex items-center justify-center p-4" data-target="estandarte">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">SUDARIO</h3>
+</div>
+</div>
+<div class="modern-bubble bubble-enter bubble-delay-3 aspect-square flex items-center justify-center p-4" data-target="hachotes">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">HACHOTES</h3>
+</div>
+</div>
+<div class="modern-bubble bubble-enter bubble-delay-4 aspect-square flex items-center justify-center p-4" data-target="galas">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">GALAS</h3>
+</div>
+</div>
+<div class="modern-bubble bubble-enter bubble-delay-5 aspect-square flex items-center justify-center p-4" data-target="vestuario">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">VESTUARIO</h3>
+</div>
+</div>
+<div class="modern-bubble bubble-enter bubble-delay-6 aspect-square flex items-center justify-center p-4" data-target="musica">
+<div class="bubble-text text-white text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">MÚSICA</h3>
+</div>
+</div>
+</div>
+
+<div class="text-center">
+<p class="text-sm text-gray-500 dark:text-gray-400 italic">Haz clic en cualquier elemento para ver más detalles</p>
+<div class="mt-4 flex justify-center items-center space-x-2">
+<div class="w-2 h-2 rounded-full bg-veracruz"></div>
+<div class="w-2 h-2 rounded-full bg-veracruz/50"></div>
+<div class="w-2 h-2 rounded-full bg-veracruz/30"></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Modal -->
+<div id="patrimonioModal" class="bubble-modal fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white dark:bg-gray-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800">
+<div id="modalHeader" class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-veracruz to-veracruz-dark text-white">
+<h3 id="modalTitle" class="text-2xl font-serif">Título</h3>
+<button id="closeModal" class="text-white hover:text-gray-200 hover:bg-white/10 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+<div class="grid md:grid-cols-2 gap-8">
+<div id="carouselContainer" class="space-y-4">
+<div class="aspect-square rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-lg">
+<img id="carouselImage" src="" alt="" class="w-full h-full object-cover">
+</div>
+<div class="flex justify-between items-center">
+<button id="prevBtn" class="hover-glow w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-veracruz hover:text-white transition-all flex items-center justify-center">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div id="carouselIndicators" class="flex space-x-2"></div>
+<button id="nextBtn" class="hover-glow w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-veracruz hover:text-white transition-all flex items-center justify-center">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<p id="imageCaption" class="text-sm text-gray-500 dark:text-gray-400 text-center italic mt-2"></p>
+</div>
+<div id="modalContent" class="space-y-4 text-justify"></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Botón para volver -->
+<section class="py-12 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<a href="index.html" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-veracruz to-veracruz-dark text-white rounded-full hover:shadow-lg hover:scale-105 transition-all text-lg font-medium shadow-md">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+Volver al Inicio
+</a>
+</div>
+</section>
+
+</main>
+
+<script>
+// Datos para las burbujas interactivas
+const patrimonioData = {
+    imagen: {
+        title: "IMAGEN TITULAR",
+        images: [
+            { src: "https://i.postimg.cc/Hk7r7ZXp/Sabado-Santo-2023-13.jpg", caption: "Cruz de la Vera Cruz - Procesión del Sábado Santo" },
+            { src: "https://i.postimg.cc/13PzfmmM/Sabado-Santo-2011-(13).jpg", caption: "Detalle de la Vera Cruz - Sábado Santo" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Cruz de Oro y Plata</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">La imagen titular del tercio es una <strong>cruz realizada en oro y plata</strong> por la orfebrería <strong>Villareal</strong> en el año <strong>1988</strong>.</p>
+            
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">En el interior de la cruz se coloca para la procesión un <strong>lignum crucis</strong> (madero de la verdadera cruz), elemento central de la devoción.</p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Año de creación</p>
+                    <p class="text-lg font-medium text-veracruz">1988</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Orfebrería</p>
+                    <p class="text-lg font-medium text-veracruz">Villareal</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Restauración</p>
+                    <p class="text-lg font-medium text-veracruz">2003</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Procesiona</p>
+                    <p class="text-lg font-medium text-veracruz">Sábado Santo</p>
+                </div>
+            </div>
+            
+            <h5 class="font-medium text-gray-900 dark:text-white mb-3">Características</h5>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Material:</strong> Oro y plata</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Lignum Crucis:</strong> Símbolo de la verdadera cruz</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Restauración:</strong> Plateada y dorada de nuevo en 2003</span>
+                </li>
+            </ul>
+            
+            <p class="text-gray-600 dark:text-gray-400 text-justify"><strong>Significado:</strong> Representa la verdadera cruz de Cristo, piedra angular de la fe cristiana y símbolo máximo de la redención.</p>
+        `
+    },
+    trono: {
+        title: "TRONO PROCESIONAL",
+        images: [
+            { src: "https://i.postimg.cc/ZKwQyj4b/Sabado-Santo-2010-(12).jpg", caption: "Trono de la Vera Cruz - Vista lateral" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Trono de Plata, Oro y Madera</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">El trono actual se procesionó por primera vez en el año <strong>1988</strong>, representando una fusión de artes: orfebrería y ebanistería.</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Parte metálica:</strong> Plata y oro, realizado por la Orfebrería Villareal de Sevilla</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Parte de madera:</strong> Talleres del artista murciano Juan Lorente</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Lignum Crucis:</strong> Colocado en el interior de la cruz central</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Estreno:</strong> 1988</span>
+                </li>
+            </ul>
+            
+        `
+    },
+    estandarte: {
+        title: "SUDARIO PROCESIONAL",
+        images: [
+            { src: "https://i.postimg.cc/4N3ZYBjF/Whats-App-Image-2026-01-26-at-12-03-26.jpg", caption: "Sudario de la Vera Cruz" },
+            { src: "https://i.postimg.cc/QMVZttPV/Whats-App-Image-2026-01-26-at-12-09-32.jpg", caption: "Detalle del bordado en oro" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Estandarte Bordado en Oro</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">El estandarte fue estrenado en la Semana Santa del año <strong>2000</strong>.</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Estreno:</strong> 2000</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Bordado:</strong> En oro en el taller de Dª Antonia Sánchez</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Dibujo:</strong> José Ramón Ballesta</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Técnica:</strong> Bordado en relieve con hilos de oro.</span>
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-400 text-justify"><strong>Motivo central:</strong> Cruz con el escudo de la Agrupación.</p>
+        `
+    },
+    hachotes: {
+        title: "HACHOTES PROCESIONALES",
+        images: [
+            { src: "https://i.postimg.cc/D0ZDwYmv/Whats-App-Image-2026-01-25-at-11-22-32.jpg", caption: "Hachote procesional encendido" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Hachotes con Tulipas Moradas</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">Los hachotes de la Vera Cruz fueron fabricados por el <strong>Centro Laboral PROLAM de Cartagena</strong>.</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Fabricante:</strong> Centro Laboral PROLAM de Cartagena</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Tulipas:</strong> Color morado con escudo del Tercio impreso al ácido</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Estreno:</strong> Semana Santa de 1983</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Dimensiones:</strong> 1520 mm de altura</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Peso:</strong> Aproximadamente 6 Kg</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Iluminación:</strong> Cartuchos de cera líquida</span>
+                </li>
+            </ul>
+            
+        `
+    },
+    galas: {
+        title: "GALAS DEL TRONO",
+        images: [
+            { src: "https://i.postimg.cc/q7JWFR0c/Sabado-Santo-2023-6.jpg", caption: "Galas delante del tercio" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Galas Bordadas en Oro</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">El tercio procesiona con tres galas bordadas.</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Total:</strong> 3 galas</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Bordado:</strong> En oro sobre fondo morado</span>
+                </li>
+                
+            </ul>
+
+        `
+    },
+    vestuario: {
+        title: "VESTUARIO PROCESIONAL",
+        images: [
+            { src: "https://i.postimg.cc/x8DRWxM2/Sabado-Santo-2023-2.jpg", caption: "Túnica y capuz blancos con capa morada" },
+            { src: "https://i.postimg.cc/kGHnJSMG/Sabado-Santo-2008-(15).jpg", caption: "Capa morada bordada en oro" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Vestuario Blanco y Morado</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">Los penitentes visten con la combinación característica de <strong>blanco y morado</strong>, colores institucionales del tercio.</p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-white border border-gray-300 p-4 rounded-xl shadow-sm">
+                    <p class="font-medium text-gray-900 mb-1">BLANCO</p>
+                    <p class="text-sm text-gray-600">Túnica y capuz</p>
+                </div>
+                <div class="bg-gradient-to-br from-veracruz to-veracruz-dark text-white p-4 rounded-xl shadow-sm">
+                    <p class="font-medium mb-1">MORADO</p>
+                    <p class="text-sm opacity-90">Capa y fajín</p>
+                </div>
+            </div>
+            
+            <h5 class="font-medium text-gray-900 dark:text-white mb-3">Componentes del Vestuario</h5>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Túnica y capuz:</strong> Raso blanco</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Capa y fajín:</strong> Raso morado bordado en oro</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-veracruz text-sm mt-0.5">check</span>
+                    <span><strong>Complementos:</strong> Sandalias negras, guantes y calcetín blanco</span>
+                </li>
+            </ul>
+            
+            <p class="text-gray-600 dark:text-gray-400 text-justify"><strong>Simbolismo:</strong> El blanco representa la pureza de la fe, mientras que el morado simboliza la penitencia y el luto de la Pasión.</p>
+        `
+    },
+    musica: {
+        title: "MÚSICA PROCESIONAL",
+        images: [
+            { src: "https://i.postimg.cc/s2y73LDD/Whats_App_Image_2026_01_20_at_21_30_10_(3).jpg", caption: "Procesión del Sábado Santo" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Música Procesional</h4>
+            <div class="rounded-2xl overflow-hidden shadow-md mb-6 border border-veracruz/20">
+                <div class="bg-gradient-to-r from-veracruz to-veracruz-dark px-5 py-3">
+                    <p class="text-[10px] uppercase font-bold text-white tracking-widest">Marcha Oficial del Tercio</p>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-800 p-5">
+                    <p class="text-2xl font-serif font-bold text-veracruz dark:text-veracruz-light mb-1">"La Vera y Santa Cruz"</p>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">Compuesta por <strong>José Torres</strong> &nbsp;·&nbsp; <strong>1989</strong></p>
+                </div>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">
+                Además de la marcha por excelencia de la Agrupación, "Santa Agonía", este tercio cuenta con una marcha propia, <strong>"La Vera y Santa Cruz"</strong>, compuesta en 1989 por D. José Torres y que se suma al repertorio del resto de marchas que interpreta durante el recorrido de la procesión la Agrupación Musical Cartagena.
+            </p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2"><span class="material-symbols-outlined text-veracruz text-sm mt-0.5">music_note</span><span><strong>Título:</strong> La Vera y Santa Cruz</span></li>
+                <li class="flex items-start gap-2"><span class="material-symbols-outlined text-veracruz text-sm mt-0.5">music_note</span><span><strong>Compositor:</strong> José Torres</span></li>
+                <li class="flex items-start gap-2"><span class="material-symbols-outlined text-veracruz text-sm mt-0.5">music_note</span><span><strong>Año de estreno:</strong> 1989</span></li>
+                <li class="flex items-start gap-2"><span class="material-symbols-outlined text-veracruz text-sm mt-0.5">music_note</span><span><strong>Uso:</strong> Marcha propia del tercio, interpretada durante la procesión del Sábado Santo.</span></li>
+            </ul>
+            <div class="flex justify-center">
+                <a href="https://www.youtube.com/watch?v=6j0jvusMUtg" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-veracruz text-white rounded-full hover:bg-veracruz-dark transition-colors">
+                    <span class="material-symbols-outlined">play_circle</span> Escuchar en YouTube
+                </a>
+            </div>
+        `
+    }
+};
+
+let currentItem = 'imagen';
+let currentImageIndex = 0;
+
+const modal = document.getElementById('patrimonioModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalHeader = document.getElementById('modalHeader');
+const modalContent = document.getElementById('modalContent');
+const carouselImage = document.getElementById('carouselImage');
+const imageCaption = document.getElementById('imageCaption');
+const carouselIndicators = document.getElementById('carouselIndicators');
+const closeModal = document.getElementById('closeModal');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+function openModal(itemId) {
+    currentItem = itemId;
+    currentImageIndex = 0;
+    const data = patrimonioData[itemId];
+    modalTitle.textContent = data.title;
+    modalContent.innerHTML = data.content;
+    modalHeader.className = 'flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-veracruz to-veracruz-dark text-white';
+    updateCarousel();
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModalFunc() {
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function updateCarousel() {
+    const data = patrimonioData[currentItem];
+    const imageData = data.images[currentImageIndex];
+    carouselImage.src = imageData.src;
+    carouselImage.alt = imageData.caption;
+    imageCaption.textContent = imageData.caption;
+    carouselIndicators.innerHTML = '';
+    data.images.forEach((_, index) => {
+        const indicator = document.createElement('div');
+        indicator.className = `w-3 h-3 rounded-full cursor-pointer ${index === currentImageIndex ? 'bg-veracruz' : 'bg-gray-300 dark:bg-gray-700'}`;
+        indicator.addEventListener('click', () => { currentImageIndex = index; updateCarousel(); });
+        carouselIndicators.appendChild(indicator);
+    });
+}
+
+function nextImage() {
+    const data = patrimonioData[currentItem];
+    currentImageIndex = (currentImageIndex + 1) % data.images.length;
+    updateCarousel();
+}
+
+function prevImage() {
+    const data = patrimonioData[currentItem];
+    currentImageIndex = (currentImageIndex - 1 + data.images.length) % data.images.length;
+    updateCarousel();
+}
+
+document.querySelectorAll('.modern-bubble').forEach(bubble => {
+    bubble.addEventListener('click', () => {
+        const target = bubble.getAttribute('data-target');
+        openModal(target);
+        bubble.style.transform = 'scale(0.95)';
+        setTimeout(() => { bubble.style.transform = ''; }, 150);
+    });
+});
+
+closeModal.addEventListener('click', closeModalFunc);
+prevBtn.addEventListener('click', prevImage);
+nextBtn.addEventListener('click', nextImage);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModalFunc(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModalFunc(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Condena de Jesús - Cofradía Marraja</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "condena": "#9B1B30",
+                    "condena-light": "#B13A4A",
+                    "condena-dark": "#7A1525",
+                    "blanco": "#FFFFFF",
+                    "cardenal": "#9B1B30",
+                    "pergamino": "#F5E6D3",
+                    "background-light": "#ffffff",
+                    "background-dark": "#120a1a",
+                },
+                fontFamily: {
+                    "display": ["Inter", "sans-serif"],
+                    "serif": ["Playfair Display", "serif"]
+                },
+                borderRadius: {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+            },
+        },
+    }
+</script>
+<style>
+    /* CSS NORMAL - FUERA DE TAILWIND */
+    .grayscale-img {
+        filter: grayscale(100%);
+        transition: filter 0.5s ease;
+    }
+    .grayscale-img:hover {
+        filter: grayscale(0%);
+    }
+    .badge-condena {
+        background-color: #9B1B30;
+        color: #F5E6D3;
+        border: 1px solid #9B1B30;
+    }
+    
+    /* Estilos para el modal de burbujas */
+    .bubble-modal {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .bubble-modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    /* Estilos modernos para las burbujas */
+    .modern-bubble {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        background: linear-gradient(145deg, #B13A4A 0%, #7A1525 100%);
+        box-shadow: 0 10px 30px rgba(155, 27, 48, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .modern-bubble::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.1) 0%, 
+                    rgba(255, 255, 255, 0.05) 50%,
+                    rgba(255, 255, 255, 0) 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    
+    .modern-bubble::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, 
+                    rgba(255, 255, 255, 0.1) 0%,
+                    rgba(255, 255, 255, 0.05) 30%,
+                    rgba(255, 255, 255, 0) 70%);
+        transform: scale(0.5);
+        opacity: 0;
+        transition: all 0.6s ease;
+    }
+    
+    .modern-bubble:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 20px 40px rgba(155, 27, 48, 0.4),
+                    0 0 0 1px rgba(255, 255, 255, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        background: linear-gradient(145deg, #C94A5A 0%, #8A1A2A 100%);
+    }
+    
+    .modern-bubble:hover::before {
+        opacity: 1;
+    }
+    
+    .modern-bubble:hover::after {
+        transform: scale(1);
+        opacity: 1;
+    }
+    
+    /* Texto de las burbujas */
+    .bubble-text {
+        position: relative;
+        z-index: 2;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        letter-spacing: 1px;
+        font-weight: 700;
+    }
+    
+    /* Animación de entrada para las burbujas */
+    @keyframes bubbleEnter {
+        0% {
+            opacity: 0;
+            transform: translateY(30px) scale(0.8);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    .bubble-enter {
+        animation: bubbleEnter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    
+    .bubble-delay-1 { animation-delay: 0.1s; }
+    .bubble-delay-2 { animation-delay: 0.2s; }
+    .bubble-delay-3 { animation-delay: 0.3s; }
+    .bubble-delay-4 { animation-delay: 0.4s; }
+    .bubble-delay-5 { animation-delay: 0.5s; }
+    .bubble-delay-6 { animation-delay: 0.6s; }
+    .bubble-delay-7 { animation-delay: 0.7s; }
+    
+    /* Animación sutil de flotación */
+    @keyframes gentleFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+    
+    .floating {
+        animation: gentleFloat 6s ease-in-out infinite;
+    }
+    
+    .float-delay-1 { animation-delay: 0.5s; }
+    .float-delay-2 { animation-delay: 1s; }
+    .float-delay-3 { animation-delay: 1.5s; }
+    .float-delay-4 { animation-delay: 2s; }
+    .float-delay-5 { animation-delay: 2.5s; }
+    .float-delay-6 { animation-delay: 3s; }
+    .float-delay-7 { animation-delay: 3.5s; }
+    
+    /* Estilos para el carrusel */
+    .carousel-slide {
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+    
+    .carousel-slide.active {
+        display: block;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    /* Efecto de brillo en hover para el modal */
+    .hover-glow {
+        transition: all 0.3s ease;
+    }
+    
+    .hover-glow:hover {
+        box-shadow: 0 0 20px rgba(155, 27, 48, 0.5);
+    }
+    
+    /* Grid responsivo mejorado */
+    @media (max-width: 640px) {
+        .modern-bubble {
+            border-radius: 16px;
+        }
+    }
+    
+    /* Justificación de textos */
+    .text-justify {
+        text-align: justify;
+    }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="py-20 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<span class="badge-condena px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase mb-4 inline-block">Agrupación Santa Agonía, Vera Cruz y Tercio Condena de Jesús</span>
+<h1 class="text-5xl md:text-7xl font-serif text-gray-900 dark:text-white mb-6">Tercio Condena de Jesús</h1>
+<div class="w-20 h-[1px] bg-condena mx-auto mb-8"></div>
+<p class="max-w-2xl mx-auto text-gray-500 dark:text-gray-400 font-serif italic text-lg leading-relaxed text-justify">
+    Fundada en 1982. Procesiona en la madrugada del Viernes Santo.
+</p>
+</div>
+</section>
+
+<!-- Imagen Principal -->
+<section class="py-8 bg-white dark:bg-background-dark">
+<div class="max-w-4xl mx-auto px-6">
+<div class="aspect-[16/9] rounded-lg overflow-hidden shadow-xl grayscale-img">
+<img src="https://i.postimg.cc/jjKPR1dq/Whats_App_Image_2026_01_20_at_21_30_09_(3).jpg" 
+     alt="Agrupación de la Condena de Jesús - Procesión del Viernes Santo"
+     class="w-full h-full object-cover">
+</div>
+<p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-4 italic">Tercio Condena de Jesús - Madrugada del Viernes Santo</p>
+</div>
+</section>
+
+<!-- Información General -->
+<section class="py-16 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6">
+<div class="grid lg:grid-cols-2 gap-12 items-start mb-16">
+<div class="space-y-8">
+<h2 class="text-3xl font-serif text-gray-900 dark:text-white">Imágenes Titulares</h2>
+<div class="space-y-6 text-gray-600 dark:text-gray-400 leading-relaxed text-justify">
+<p>
+    Representan la <strong>primera estación del Vía Crucis</strong> cuando Jesús es condenado a muerte. El grupo incluye a un sayón entregando la cruz a Jesús ante la mirada de <strong>Poncio Pilato</strong> y su esposa <strong>Claudia Prócula</strong>, que intenta interceder por el Nazareno.
+</p>
+<p>
+    Las imágenes fueron realizadas por <strong>D. Juan Abascal Fuentes (1922-2003)</strong> en 1984. El tercio se fundó en 1982, siendo presidente de la agrupación <strong>D. José Ramón Ballesta</strong>, y procesionó por primera vez en la madrugada del Viernes Santo de 1984.
+</p>
+<p class="font-serif italic text-gray-500 text-justify">
+    Tercio compuesto exclusivamente por mujeres.
+</p>
+</div>
+</div>
+<div class="space-y-6">
+<h3 class="text-xl font-serif text-gray-900 dark:text-white mb-4">Datos Principales</h3>
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border-l-4 border-condena">
+<p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Fundación</p>
+<p class="text-sm font-medium">1982</p>
+</div>
+<div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border-l-4 border-condena">
+<p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Primera Procesión</p>
+<p class="text-sm font-medium">1984</p>
+</div>
+<div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border-l-4 border-condena">
+<p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Procesión</p>
+<p class="text-sm font-medium">Madrugada Viernes Santo</p>
+</div>
+<div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border-l-4 border-condena">
+<p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Característica</p>
+<p class="text-sm font-medium">Tercio femenino</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Burbujas Interactivas Modernas -->
+<section class="py-16 bg-gradient-to-b from-white to-gray-50 dark:from-background-dark dark:to-gray-900/30">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-serif text-gray-900 dark:text-white mb-4">Patrimonio Completo</h2>
+<div class="w-16 h-[1px] bg-condena mx-auto mb-4"></div>
+<p class="mt-4 text-gray-600 dark:text-gray-400 max-w-3xl mx-auto text-lg text-justify">Explora todos los elementos de la agrupación haciendo clic en cada tarjeta</p>
+</div>
+
+<!-- Grid de burbujas modernas - 6 elementos -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-20">
+<!-- Burbuja 1: Imagen -->
+<div class="modern-bubble bubble-enter floating aspect-square flex items-center justify-center p-4" data-target="imagen">
+<div class="bubble-text text-[#F5E6D3] text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">IMAGEN</h3>
+</div>
+</div>
+
+<!-- Burbuja 2: Trono -->
+<div class="modern-bubble bubble-enter bubble-delay-1 floating float-delay-1 aspect-square flex items-center justify-center p-4" data-target="trono">
+<div class="bubble-text text-[#F5E6D3] text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">TRONO</h3>
+</div>
+</div>
+
+<!-- Burbuja 3: Galas -->
+<div class="modern-bubble bubble-enter bubble-delay-2 floating float-delay-2 aspect-square flex items-center justify-center p-4" data-target="galas">
+<div class="bubble-text text-[#F5E6D3] text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">GALAS</h3>
+</div>
+</div>
+
+<!-- Burbuja 4: Hachotes -->
+<div class="modern-bubble bubble-enter bubble-delay-3 floating float-delay-3 aspect-square flex items-center justify-center p-4" data-target="hachotes">
+<div class="bubble-text text-[#F5E6D3] text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">HACHOTES</h3>
+</div>
+</div>
+
+<!-- Burbuja 5: Vestuario -->
+<div class="modern-bubble bubble-enter bubble-delay-4 floating float-delay-4 aspect-square flex items-center justify-center p-4" data-target="vestuario">
+<div class="bubble-text text-[#F5E6D3] text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">VESTUARIO</h3>
+</div>
+</div>
+
+<!-- Burbuja 6: Sudario -->
+<div class="modern-bubble bubble-enter bubble-delay-5 floating float-delay-5 aspect-square flex items-center justify-center p-4" data-target="sudario">
+<div class="bubble-text text-[#F5E6D3] text-center">
+<h3 class="font-bold text-sm md:text-base tracking-wider">SUDARIO</h3>
+</div>
+</div>
+</div>
+
+<!-- Indicador visual -->
+<div class="text-center">
+<p class="text-sm text-gray-500 dark:text-gray-400 italic">Haz clic en cualquier elemento para ver más detalles</p><div class="mt-4 flex justify-center items-center space-x-2">
+<div class="w-2 h-2 rounded-full bg-condena"></div>
+<div class="w-2 h-2 rounded-full bg-condena/50"></div>
+<div class="w-2 h-2 rounded-full bg-condena/30"></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Modal para mostrar contenido de las burbujas -->
+<div id="patrimonioModal" class="bubble-modal fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white dark:bg-gray-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800">
+<!-- Encabezado del modal -->
+<div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-condena to-condena-dark text-white">
+<h3 id="modalTitle" class="text-2xl font-serif">Título</h3>
+<button id="closeModal" class="text-white hover:text-gray-200 hover:bg-white/10 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+
+<!-- Contenido del modal -->
+<div class="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+<div class="grid md:grid-cols-2 gap-8">
+<!-- Carousel de imágenes -->
+<div id="carouselContainer" class="space-y-4">
+<div class="aspect-square rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-lg">
+<img id="carouselImage" src="" alt="" class="w-full h-full object-cover">
+</div>
+<div class="flex justify-between items-center">
+<button id="prevBtn" class="hover-glow w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-condena hover:text-white transition-all flex items-center justify-center">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div id="carouselIndicators" class="flex space-x-2">
+<!-- Los indicadores se generarán con JavaScript -->
+</div>
+<button id="nextBtn" class="hover-glow w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-condena hover:text-white transition-all flex items-center justify-center">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<p id="imageCaption" class="text-sm text-gray-500 dark:text-gray-400 text-center italic mt-2"></p>
+</div>
+
+<!-- Información detallada -->
+<div id="modalContent" class="space-y-4 text-justify">
+<!-- El contenido se llenará con JavaScript -->
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Botón para volver -->
+<section class="py-12 bg-white dark:bg-background-dark">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<a href="index.html" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-condena to-condena-dark text-white rounded-full hover:shadow-lg hover:scale-105 transition-all text-lg font-medium shadow-md">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+Volver al Inicio
+</a>
+</div>
+</section>
+
+</main>
+
+<script>
+// Datos para las burbujas interactivas - 6 elementos
+const patrimonioData = {
+    imagen: {
+        title: "IMAGEN TITULAR",
+        images: [
+            { src: "https://i.postimg.cc/jjKPR1dq/Whats_App_Image_2026_01_20_at_21_30_09_(3).jpg", caption: "Tercio Condena de Jesús - Vista frontal" },
+            { src: "https://i.postimg.cc/9Q15DwGp/Madrugada-2019-(20).jpg", caption: "Detalle de Jesús con la cruz" },
+            { src: "https://i.postimg.cc/TPHz98NJ/Poncio-Condena.jpg", caption: "Poncio Pilato" }
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Grupo Escultórico de la Condena</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">El grupo escultórico representa la primera estación del Vía Crucis:</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Jesús:</strong> Figura central con la cruz a cuestas, representando el momento de la condena</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Sayón:</strong> Entregando la cruz a Jesús, símbolo de la condena a muerte</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Poncio Pilato:</strong> Representando la autoridad romana que condena</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Claudia Prócula:</strong> Esposa de Pilato, intercediendo por Jesús</span>
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-justify"><strong>Autor:</strong> D. Juan Abascal Fuentes (1922-2003), realizado en 1984.</p>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-justify"><strong>Estilo:</strong> Realista con gran expresividad en los rostros, característico de la escuela escultórica cartagenera.</p>
+            <p class="text-gray-600 dark:text-gray-400 text-justify"><strong>Significado:</strong> Representa el momento en que Jesús acepta su destino y comienza el camino del Calvario.</p>
+        `
+    },
+    trono: {
+        title: "TRONO PROCESIONAL",
+        images: [
+            { src: "https://i.postimg.cc/FRMwMy4y/trono-c-3.jpg", caption: "Trono de la Condena - Vista lateral" },
+            { src: "https://i.postimg.cc/zX19pF7t/trono-c-2.jpg", caption: "Detalle del barroco dorado" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Trono Barroco Dorado</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">El trono de la Condena es una obra de arte barroca:</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Autor:</strong> Juan Lorente Sánchez</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Estreno:</strong> 1984</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Estilo:</strong> Barroco dorado</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Origen:</strong> Reforma del antiguo trono de La Verónica</span>
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-justify"><strong>Características:</strong> Diseño barroco con abundante ornamentación dorada, típico del estilo cartagenero.</p>
+            <p class="text-gray-600 dark:text-gray-400 text-justify"><strong>Distribución:</strong> Acoge las cuatro figuras del grupo escultórico en diferentes niveles, creando un efecto dramático.</p>
+        `
+    },
+    galas: {
+        title: "GALAS DEL TRONO",
+        images: [
+            { src: "https://i.postimg.cc/dVsgcQzW/Madrugada_2023_(13).jpg", caption: "Gala de la agrupación" },
+            { src: "https://i.postimg.cc/x8VFx9vX/Madrugada-2023-(23).jpg", caption: "Galas en procesión" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Galas Bordadas en Oro</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">El trono cuenta con cuatro galas con inscripciones bíblicas:</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Total:</strong> 4 galas</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Diseño:</strong> José Ramón Ballesta</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Bordado:</strong> Dª. Isabel Manrubia en 1984</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Material:</strong> Terciopelo granate con hilos de oro</span>
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-justify"><strong>Inscripciones:</strong></p>
+            <ul class="text-gray-600 dark:text-gray-400 mb-2 list-disc list-inside text-justify">
+                <li>"Reo es de Muerte"</li>
+                <li>"He aquí el Hombre"</li>
+                <li>"Jesús Nazareno Rey de los Judíos"</li>
+                <li>"Mi reino no es de este mundo"</li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-400 text-justify"><strong>Colocación:</strong> Distribuidas en los laterales del trono, aportando vistosidad y completando la iconografía de la Pasión.</p>
+        `
+    },
+    hachotes: {
+        title: "HACHOTES PROCESIONALES",
+        images: [
+            { src: "https://i.postimg.cc/wxDrtsz5/Madrugada-2023-(20).jpg", caption: "Hachote procesional encendido" },
+            { src: "https://i.postimg.cc/TY9H0Mpw/Madrugada-2023-(22).jpg", caption: "Hachotes en formación durante la procesión" }
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Hachotes con Sistema Eléctrico</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">Los hachotes de la Condena tienen una historia única:</p>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Historia:</strong> Anteriormente fueron de la Vera Cruz y de la Agrupación de San Juan</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Reforma:</strong> PROLAM en 1983</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Dimensiones:</strong> 154 cm de altura, aproximadamente 8 kg de peso</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Iluminación:</strong> Sistema de baterías eléctricas internas</span>
+                </li>
+            </ul>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-justify"><strong>Diseño:</strong> Base de metal con detalles ornamentales, rematado con un farol de cristal que alberga la bombilla.</p>
+            <p class="text-gray-600 dark:text-gray-400 text-justify"><strong>Uso procesional:</strong> Portados por las hermanas que flanquean el trono, iluminando el camino durante la procesión nocturna.</p>
+        `
+    },
+    vestuario: {
+        title: "VESTUARIO PROCESIONAL",
+        images: [
+            { src: "https://i.postimg.cc/qvDDfssY/Madrugada-2023-(4).jpg", caption: "Túnica y capuz rojo cardenalicio" },
+            { src: "https://i.postimg.cc/fRPCqwZm/Madrugada-2023-(10).jpg", caption: "Detalle de los bordados en oro de la capa" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Vestuario de la Agrupación</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">El vestuario de la Condena combina tradición y elegancia:</p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-[#9B1B30] text-white p-4 rounded-xl shadow-sm">
+                    <p class="font-medium mb-1">ROJO CARDENAL</p>
+                    <p class="text-sm opacity-90">Túnica y capuz</p>
+                </div>
+                <div class="bg-[#F5E6D3] text-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="font-medium text-gray-900 mb-1">PERGAMINO</p>
+                    <p class="text-sm text-gray-700">Capa y fajín</p>
+                </div>
+            </div>
+            
+            <h5 class="font-medium text-gray-900 dark:text-white mb-3">Componentes del Vestuario</h5>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Túnica y capuz:</strong> Color rojo cardenalicio, de tejido de calidad</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Capa y fajín:</strong> Color pergamino con bordados en oro</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Complementos:</strong> Sandalias negras, guantes y calcetín blanco</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Bordados:</strong> Capas bordadas por Dª. Isabel Manrubia, fajines por Dª. María del Carmen Ayala</span>
+                </li>
+            </ul>
+            
+            <p class="text-gray-600 dark:text-gray-400 text-justify"><strong>Simbolismo:</strong> El color rojo cardenalicio representa el martirio y la sangre de Cristo, mientras que el pergamino simboliza la pureza y la esperanza en la resurrección.</p>
+        `
+    },
+    sudario: {
+        title: "SUDARIO PROCESIONAL",
+        images: [
+            { src: "https://i.postimg.cc/763NL0z5/sudario-condena-2.jpg", caption: "Sudario de la Condena" },
+        ],
+        content: `
+            <h4 class="text-xl font-medium text-gray-900 dark:text-white mb-4 text-justify">Sudario de la Agrupación</h4>
+            <p class="text-gray-600 dark:text-gray-400 mb-4 text-justify">El sudario es una de las piezas más valiosas del patrimonio:</p>
+            
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Estreno</p>
+                    <p class="text-lg font-medium text-condena">1984</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Diseño</p>
+                    <p class="text-lg font-medium text-condena">José Ramón Ballesta</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl shadow-sm">
+                    <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">Bordado</p>
+                    <p class="text-lg font-medium text-condena">Dª. Antonia Sánchez</p>
+                </div>
+            </div>
+            
+            <h5 class="font-medium text-gray-900 dark:text-white mb-3">Detalles del sudario</h5>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Materiales:</strong> Oro y pedrería, bordado a dos caras sobre terciopelo granate</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Motivo central:</strong> Corona de espinas que inscribe una Cruz</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Inscripción:</strong> "Reo es de Muerte" sobre un pergamino</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Varal:</strong> Realizado en PROLAM</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-condena text-sm mt-0.5">check</span>
+                    <span><strong>Remate:</strong> Incluye el escudo en pequeño de la Agrupación</span>
+                </li>
+            </ul>
+            
+            <p class="text-gray-600 dark:text-gray-400 text-justify"><strong>Iconografía:</strong> El estandarte representa la Pasión de Cristo, con símbolos como la corona de espinas y la cruz, todo ello enmarcado en motivos vegetales y heráldicos propios de la Cofradía Marraja.</p>
+        `
+    }
+};
+
+// Variables para el carousel
+let currentItem = 'imagen';
+let currentImageIndex = 0;
+
+// Elementos del DOM
+const modal = document.getElementById('patrimonioModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalContent = document.getElementById('modalContent');
+const carouselImage = document.getElementById('carouselImage');
+const imageCaption = document.getElementById('imageCaption');
+const carouselIndicators = document.getElementById('carouselIndicators');
+const closeModal = document.getElementById('closeModal');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+// Funciones para manejar el modal
+function openModal(itemId) {
+    currentItem = itemId;
+    currentImageIndex = 0;
+    
+    const data = patrimonioData[itemId];
+    modalTitle.textContent = data.title;
+    modalContent.innerHTML = data.content;
+    
+    // Cargar la primera imagen
+    updateCarousel();
+    
+    // Mostrar modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModalFunc() {
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function updateCarousel() {
+    const data = patrimonioData[currentItem];
+    const imageData = data.images[currentImageIndex];
+    
+    carouselImage.src = imageData.src;
+    carouselImage.alt = imageData.caption;
+    imageCaption.textContent = imageData.caption;
+    
+    // Actualizar indicadores
+    carouselIndicators.innerHTML = '';
+    data.images.forEach((_, index) => {
+        const indicator = document.createElement('div');
+        indicator.className = `w-3 h-3 rounded-full cursor-pointer ${index === currentImageIndex ? 'bg-condena' : 'bg-gray-300 dark:bg-gray-700'}`;
+        indicator.addEventListener('click', () => {
+            currentImageIndex = index;
+            updateCarousel();
+        });
+        carouselIndicators.appendChild(indicator);
+    });
+}
+
+function nextImage() {
+    const data = patrimonioData[currentItem];
+    currentImageIndex = (currentImageIndex + 1) % data.images.length;
+    updateCarousel();
+}
+
+function prevImage() {
+    const data = patrimonioData[currentItem];
+    currentImageIndex = (currentImageIndex - 1 + data.images.length) % data.images.length;
+    updateCarousel();
+}
+
+// Event Listeners
+document.querySelectorAll('.modern-bubble').forEach(bubble => {
+    bubble.addEventListener('click', () => {
+        const target = bubble.getAttribute('data-target');
+        openModal(target);
+    });
+});
+
+closeModal.addEventListener('click', closeModalFunc);
+prevBtn.addEventListener('click', prevImage);
+nextBtn.addEventListener('click', nextImage);
+
+// Cerrar modal al hacer clic fuera del contenido
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        closeModalFunc();
+    }
+});
+
+// Cerrar modal con tecla ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModalFunc();
+    }
+});
+
+// Añadir efecto de sonido sutil al hacer clic (opcional)
+document.querySelectorAll('.modern-bubble').forEach(bubble => {
+    bubble.addEventListener('click', () => {
+        // Pequeña animación de pulso al hacer clic
+        bubble.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            bubble.style.transform = '';
+        }, 150);
+    });
+});
+</script>
+</body>
+</html>

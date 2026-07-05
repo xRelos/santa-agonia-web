@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Historia - Agrupación Santa Agonía</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "agonia":          "#411873",
+          "agonia-light":    "#5d249e",
+          "agonia-dark":     "#2e1252",
+          "blanco":          "#FFFFFF",
+          "cardenal":        "#9B1B30",
+          "pergamino":       "#F5E6D3",
+          "background-light":"#ffffff",
+          "background-dark": "#120a1a",
+        },
+        fontFamily: {
+          "display": ["Inter","sans-serif"],
+          "serif":   ["Playfair Display","serif"]
+        },
+        borderRadius: {
+          "DEFAULT":"0.25rem",
+          "lg":"0.5rem",
+          "xl":"0.75rem",
+          "full":"9999px"
+        },
+      },
+    },
+  }
+</script>
+<style>
+/* ── Utilities ─────────────────────────────────── */
+.grayscale-img          { filter:grayscale(100%); transition:filter .5s ease; }
+.grayscale-img:hover    { filter:grayscale(0%); }
+.text-justified         { text-align:justify; hyphens:auto; }
+.image-hover-effect     { transition:all .3s ease; }
+.image-hover-effect:hover { transform:scale(1.02); box-shadow:0 10px 30px rgba(0,0,0,.15); }
+
+/* ── Timeline ──────────────────────────────────── */
+.timeline-item {
+  position:relative;
+  padding-left:2.5rem;
+  padding-bottom:2.5rem;
+}
+.timeline-item:not(:last-child)::before {
+  content:'';
+  position:absolute;
+  left:1.25rem; top:2.5rem; bottom:0;
+  width:2px;
+  background:linear-gradient(to bottom,#411873,transparent);
+}
+.timeline-dot {
+  position:absolute; left:1rem; top:0;
+  width:16px; height:16px;
+  border-radius:50%;
+  background-color:#411873;
+  border:3px solid white;
+  box-shadow:0 0 0 2px #411873;
+  z-index:10;
+}
+
+/* ── Animations ────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.animate-fade-in-up { animation:fadeInUp .6s ease-out forwards; }
+
+/* ── Highlight pill ────────────────────────────── */
+.highlight-year {
+  background:linear-gradient(135deg,#411873,#5d249e);
+  color:white;
+  padding:.25rem 1rem;
+  border-radius:9999px;
+  font-weight:600;
+  display:inline-block;
+  margin-bottom:.5rem;
+  font-size:.9rem;
+}
+
+/* ── Quote block ───────────────────────────────── */
+.quote-block {
+  border-left:4px solid #411873;
+  background-color:rgba(65,24,115,.05);
+  padding:1.5rem;
+  font-style:italic;
+  margin:1.5rem 0;
+  border-radius:0 .5rem .5rem 0;
+}
+
+/* ══════════════════════════════════════════════════
+   MOBILE OVERRIDES  (≤ 640 px)
+══════════════════════════════════════════════════ */
+@media (max-width:640px) {
+
+  /* --- General spacing ---- */
+  main { padding-top: 1rem; }
+
+  section { padding-top:2rem !important; padding-bottom:2rem !important; }
+
+  .mobile-px { padding-left:1rem; padding-right:1rem; }
+
+  /* --- Hero heading --- */
+  h1.page-title {
+    font-size:2rem !important;
+    line-height:1.2 !important;
+  }
+
+  /* --- Section headings --- */
+  h2.section-title {
+    font-size:1.5rem !important;
+    line-height:1.25 !important;
+  }
+
+  /* --- Body text --- */
+  p, li {
+    font-size:.95rem !important;
+    line-height:1.7 !important;
+  }
+
+  /* --- Featured image: taller crop on mobile --- */
+  .featured-img-wrap {
+    border-radius:.75rem !important;
+    aspect-ratio:4/3 !important;   /* taller portrait on small screens */
+  }
+
+  /* --- Cards: full-width stack --- */
+  .hito-card {
+    border-radius:.75rem !important;
+    padding:1.25rem !important;
+  }
+
+  /* --- Timeline: tighten dot/line --- */
+  .timeline-item            { padding-left:1.75rem; padding-bottom:2rem; }
+  .timeline-item::before    { left:.85rem !important; }
+  .timeline-dot             { left:.6rem !important; width:14px !important; height:14px !important; }
+
+  /* --- Quote block --- */
+  .quote-block { padding:1rem !important; font-size:.9rem !important; }
+
+  /* --- Presidents grid: single column --- */
+  .presidents-grid          { grid-template-columns:1fr !important; gap:1.25rem !important; }
+
+  /* --- Current president box --- */
+  .current-president        { flex-direction:column !important; align-items:center !important; text-align:center !important; gap:1.25rem !important; }
+  .current-president .photo { width:7rem; height:7rem; margin:0 auto; }
+
+  /* --- Avatar circles in president cards --- */
+  .president-avatar         { width:5rem !important; height:5rem !important; }
+
+  /* --- CTA button --- */
+  .cta-btn {
+    width:100% !important;
+    justify-content:center !important;
+    padding:.875rem 1.5rem !important;
+    font-size:1rem !important;
+  }
+
+  /* --- highlight-year pill --- */
+  .highlight-year { font-size:.8rem !important; padding:.2rem .75rem !important; }
+
+  /* --- Note footer --- */
+  .presidents-note { font-size:.8rem !important; padding:0 .5rem; }
+}
+
+/* ── Tablet tweaks (641-1023 px) ───────────────── */
+@media (min-width:641px) and (max-width:1023px) {
+  .presidents-grid { grid-template-columns: repeat(2,1fr) !important; }
+
+  h1.page-title    { font-size:2.75rem !important; }
+}
+</style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<main class="pt-4">
+
+<!-- ══════════════════════════════════════════════
+     CABECERA
+══════════════════════════════════════════════ -->
+<section class="py-12 md:py-20 bg-white dark:bg-background-dark">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 mobile-px">
+    <div class="text-center">
+      <span class="text-agonia font-bold tracking-[0.3em] uppercase text-[10px] mb-3 md:mb-4 block">
+        Nuestra Trayectoria
+      </span>
+      <h1 class="page-title text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif text-gray-900 dark:text-white mb-4 md:mb-6">
+        Historia de la Agrupación
+      </h1>
+      <div class="w-16 md:w-20 h-[1px] bg-agonia mx-auto mb-6 md:mb-12"></div>
+      <p class="text-sm sm:text-base md:text-lg max-w-2xl mx-auto text-gray-500 dark:text-gray-400 font-serif italic leading-relaxed px-2">
+        Más de un siglo de tradición, fe y compromiso marrajo desde 1880
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     IMAGEN DESTACADA
+══════════════════════════════════════════════ -->
+<section class="py-8 bg-white dark:bg-background-dark">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 mobile-px">
+    <div class="featured-img-wrap aspect-video rounded-xl overflow-hidden shadow-xl image-hover-effect grayscale-img">
+      <img src="https://i.postimg.cc/j5RTzxgY/Whats-App-Image-2026-02-04-at-23-21-19.jpg"
+           alt="Historia de la Agrupación"
+           class="w-full h-full object-cover object-top">
+    </div>
+    <p class="text-center text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-3 italic">
+      Archivo histórico de la Agrupación de la Santa Agonía
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ORÍGENES 1880
+══════════════════════════════════════════════ -->
+<section class="py-12 md:py-16 bg-white dark:bg-background-dark border-t border-gray-100 dark:border-gray-800">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 mobile-px">
+    <div class="mb-8 md:mb-10">
+      <h2 class="section-title text-2xl sm:text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-4">
+        Orígenes: 1880
+      </h2>
+      <div class="w-12 h-[1px] bg-agonia mb-6"></div>
+    </div>
+    <div class="text-gray-600 dark:text-gray-400 leading-relaxed text-justified space-y-4">
+      <p>
+        En <strong class="text-agonia">1880</strong>, la Cofradía Marraja modificó por vez primera su discurso
+        procesional, incorporando a sus desfiles la imagen de un Crucificado. Se trataba de una talla anónima que se
+        encontraba al culto en la capilla del Penal de Cartagena. Aunque se desconoce su autor, se cree que era de
+        procedencia italiana y realizada en el siglo XVIII.
+      </p>
+      <p>
+        Aquella imagen formó un grupo escultórico, el del Calvario, junto a tallas de la Virgen, San Juan y Santa
+        María Magdalena. Procesionó como tal entre <strong>1881 y 1895</strong>, pasando a hacerlo en solitario en
+        <strong>1896</strong> ya bajo la advocación de <strong>Cristo de la Agonía</strong>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     FUNDACIÓN Y CONSOLIDACIÓN
+══════════════════════════════════════════════ -->
+<section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-900/30 border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 mobile-px">
+    <div class="mb-10 md:mb-12">
+      <h2 class="section-title text-2xl sm:text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-4">
+        Fundación y Consolidación
+      </h2>
+      <div class="w-12 h-[1px] bg-agonia mb-6"></div>
+    </div>
+
+    <div class="space-y-6 md:space-y-8">
+      <!-- 1929 -->
+      <div class="hito-card bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-800">
+        <span class="highlight-year">1929</span>
+        <h3 class="text-lg sm:text-xl font-serif text-gray-900 dark:text-white mb-3 mt-1">
+          Nace la Agrupación de La Agonía
+        </h3>
+        <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-justified text-sm sm:text-base">
+          Culminando el proceso de creación de agrupaciones en el seno de la cofradía, y a iniciativa de la superiora
+          del Patronato del Sagrado Corazón de Jesús, <strong>Sor María Mailhán</strong>, un grupo de Hijos de María
+          de aquel colegio fundó la <strong>Agrupación de La Agonía</strong>. Desde el año siguiente sería la
+          encargada de procesionar, cada noche de Viernes Santo, la imagen del Cristo Crucificado. El primer
+          presidente fue <strong>Joaquín Dato</strong>, sustituido poco después por <strong>Manuel Ramón</strong>.
+        </p>
+      </div>
+
+      <!-- 1940-1943 -->
+      <div class="hito-card bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-800">
+        <span class="highlight-year">1940–1943</span>
+        <h3 class="text-lg sm:text-xl font-serif text-gray-900 dark:text-white mb-3 mt-1">
+          Reconstrucción tras la Guerra Civil
+        </h3>
+        <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-justified text-sm sm:text-base">
+          Tras la Guerra Civil, que destruyó gran parte del patrimonio religioso de Cartagena —incluida la imagen del
+          Cristo de la Agonía—, en <strong>1940</strong> se retomó la actividad bajo la presidencia de
+          <strong>Wenceslao Tarín</strong>. De forma provisional se procesionó el Crucificado de la Basílica de la
+          Caridad. En <strong>1942</strong> se recibió la nueva talla del Cristo de la Agonía, obra del barcelonés
+          <strong>Carles Flotats</strong>, donada por el industrial <strong>Juan Magro</strong>. Procesionó por
+          primera vez en <strong>1943</strong>, el mismo año en que el tercio adoptó sus colores característicos:
+          <strong class="text-agonia">blanco y morado</strong>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     HITOS HISTÓRICOS (TIMELINE)
+══════════════════════════════════════════════ -->
+<section class="py-12 md:py-16 bg-white dark:bg-background-dark border-t border-gray-100 dark:border-gray-800">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 mobile-px">
+    <div class="mb-10 md:mb-12">
+      <h2 class="section-title text-2xl sm:text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-4">
+        Hitos Históricos
+      </h2>
+      <div class="w-12 h-[1px] bg-agonia mb-6"></div>
+      <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-3xl">
+        Cronología de los momentos más significativos en la historia de nuestra agrupación
+      </p>
+    </div>
+
+    <!-- 1950 -->
+    <div class="timeline-item animate-fade-in-up">
+      <div class="timeline-dot"></div>
+      <div class="mb-3 md:mb-6">
+        <span class="highlight-year">1950</span>
+        <h3 class="text-lg sm:text-xl font-serif text-gray-900 dark:text-white mb-2 mt-1">
+          La Virgen acompaña al Cristo
+        </h3>
+      </div>
+      <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed text-justified">
+        En <strong>1950</strong> se sitúa junto al Cristo una imagen de la Virgen Dolorosa, conocida como la
+        <strong>"Virgen Guapa"</strong>, tallada por <strong>José Sánchez Lozano</strong> en 1943 y que hasta
+        entonces procesionaba en el Encuentro. Acompañaría a nuestro Titular hasta 1963.
+      </p>
+    </div>
+
+    <!-- 1959 -->
+    <div class="timeline-item animate-fade-in-up">
+      <div class="timeline-dot"></div>
+      <div class="mb-3 md:mb-6">
+        <span class="highlight-year">1959</span>
+        <h3 class="text-lg sm:text-xl font-serif text-gray-900 dark:text-white mb-2 mt-1">
+          Nuevo tercio: Vera Cruz
+        </h3>
+      </div>
+      <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed text-justified">
+        La agrupación suma un nuevo tercio, el de la <strong>Vera Cruz</strong>, que será Titular de la procesión
+        del Sábado Santo, de nueva creación.
+      </p>
+    </div>
+
+    <!-- 1964 -->
+    <div class="timeline-item animate-fade-in-up">
+      <div class="timeline-dot"></div>
+      <div class="mb-3 md:mb-6">
+        <span class="highlight-year">1964</span>
+        <h3 class="text-lg sm:text-xl font-serif text-gray-900 dark:text-white mb-2 mt-1">
+          Virgen de la Amargura y nuevo sudario
+        </h3>
+      </div>
+      <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed text-justified">
+        Se estrena la imagen de la <strong>Virgen de la Amargura</strong>, realizada por <strong>Efraín Gómez</strong>
+        y donada por el presidente <strong>Wenceslao Tarín</strong>. Ese mismo año procesiona por primera vez el
+        actual sudario, bordado por <strong>Anita Vivancos</strong> sobre diseño de
+        <strong>Balbino de la Cerra</strong>.
+      </p>
+    </div>
+
+    <!-- 1973-1979 -->
+    <div class="timeline-item animate-fade-in-up">
+      <div class="timeline-dot"></div>
+      <div class="mb-3 md:mb-6">
+        <span class="highlight-year">1973–1979</span>
+        <h3 class="text-lg sm:text-xl font-serif text-gray-900 dark:text-white mb-2 mt-1">
+          Relevo y Bodas de Oro
+        </h3>
+      </div>
+      <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed text-justified">
+        Tras una larga presidencia, <strong>Wenceslao Tarín</strong> fallece en <strong>1973</strong>. Le sucede
+        <strong>Enrique Vázquez</strong>, bajo cuyo mandato se celebran en <strong>1979</strong> las
+        <strong>Bodas de Oro de la Agrupación</strong>, conmemorando medio siglo de trayectoria.
+      </p>
+    </div>
+
+    <!-- 1982-1984 -->
+    <div class="timeline-item animate-fade-in-up">
+      <div class="timeline-dot"></div>
+      <div class="mb-3 md:mb-6">
+        <span class="highlight-year">1982–1984</span>
+        <h3 class="text-lg sm:text-xl font-serif text-gray-900 dark:text-white mb-2 mt-1">
+          Tercer Tercio: Condena de Jesús
+        </h3>
+      </div>
+      <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed text-justified">
+        Bajo la presidencia de <strong>José Ramón Ballesta</strong> se crea en <strong>1982</strong> un tercer
+        tercio para incorporar a la mujer agónica: el de la <strong>Condena de Jesús</strong>. Desde
+        <strong>1984</strong> forma parte de la procesión de la Calle de la Amargura (el Encuentro) cada madrugada
+        de Viernes Santo.
+      </p>
+    </div>
+
+    <!-- 1987-1997 -->
+    <div class="timeline-item animate-fade-in-up">
+      <div class="timeline-dot"></div>
+      <div class="mb-3 md:mb-6">
+        <span class="highlight-year">1987–1997</span>
+        <h3 class="text-lg sm:text-xl font-serif text-gray-900 dark:text-white mb-2 mt-1">
+          Cambios de sede y traslados
+        </h3>
+      </div>
+      <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed text-justified">
+        En <strong>1987</strong> la imagen del Cristo de la Agonía pasa a estar al culto en la capilla del
+        <strong>Cuartel de Instrucción</strong>, recuperándose el antiguo traslado cada Sábado de Pasión. Tras el
+        cierre del Cuartel, desde <strong>1997</strong> la imagen reside en la capilla del
+        <strong>Patronato</strong>, de donde parte el Traslado, iniciándose la presidencia de
+        <strong>Gregorio Saura Vilar</strong>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     EL PATRONATO
+══════════════════════════════════════════════ -->
+<section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-900/30 border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 mobile-px">
+    <div class="mb-8 md:mb-10">
+      <h2 class="section-title text-2xl sm:text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-4">
+        Nuestra Casa: El Patronato
+      </h2>
+      <div class="w-12 h-[1px] bg-agonia mb-6"></div>
+    </div>
+    <div class="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed text-justified space-y-4">
+      <p>
+        En <strong>1900</strong>, a iniciativa del sacerdote <strong>Trinitario Marturana</strong> y de
+        <strong>Sor María Mailhán</strong> (superiora de las Hijas de la Caridad en Cartagena), se funda el
+        <strong>Colegio Patronato del Sagrado Corazón de Jesús</strong>. Es hoy el colegio más antiguo de la ciudad,
+        en el que se han formado miles de cartageneros.
+      </p>
+      <p>
+        Con el capital aportado por la Congregación y el apoyo de la sociedad cartagenera, el centro inició su
+        andadura en la calle Saura, en un edificio principal diseñado por el prestigioso arquitecto modernista
+        <strong>Víctor Beltrí</strong>, declarado <strong>Bien de Interés Cultural</strong>.
+      </p>
+      <p>
+        En la actualidad, como centro concertado que sigue bajo la dirección de la Congregación de las Hijas de la
+        Caridad de San Vicente de Paúl, se imparten Educación Infantil y Primaria.
+      </p>
+      <div class="quote-block">
+        <p class="text-gray-700 dark:text-gray-300">
+          <span class="text-agonia font-bold text-xl">"</span>
+          La Agrupación de la Agonía, fundada en aquel centro por miembros de la Asociación de Hijos de María, ha
+          mantenido siempre un vínculo constante con el Patronato. Nuestro Titular se encuentra al culto en su
+          capilla; nuestros tercios siempre se han formado allí antes de cada procesión, y también tienen lugar en
+          el mismo las reuniones de las Juntas Generales y otros actos, como el Día de la Agrupación en la mañana
+          del Jueves Santo.
+          <span class="text-agonia font-bold text-xl">"</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     PRESIDENCIAS RECIENTES
+══════════════════════════════════════════════ -->
+<section class="py-12 md:py-16 bg-white dark:bg-background-dark border-t border-gray-100 dark:border-gray-800">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 mobile-px">
+    <div class="mb-8 md:mb-10">
+      <h2 class="section-title text-2xl sm:text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-4">
+        Presidencias Recientes
+      </h2>
+      <div class="w-12 h-[1px] bg-agonia mb-6"></div>
+    </div>
+
+    <!-- Grid: 3 col desktop / 2 col tablet / 1 col mobile -->
+    <div class="presidents-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
+
+      <!-- Gregorio -->
+      <div class="bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 text-center">
+        <div class="mb-4">
+          <span class="text-xs font-bold tracking-widest uppercase text-agonia">1997–2013</span>
+        </div>
+        <div class="president-avatar w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-agonia/10 mx-auto mb-4 shadow-sm">
+          <img src="https://i.postimg.cc/P5LPcKM3/Whats-App-Image-2026-02-03-at-20-36-52.jpg"
+               alt="Gregorio Saura Vilar" class="w-full h-full object-cover">
+        </div>
+        <h4 class="font-serif text-lg md:text-xl text-gray-900 dark:text-white mb-2">Gregorio Saura Vilar</h4>
+        <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+          Presidente, Primer Comisario de la Cofradía y Presidente de Honor
+        </p>
+      </div>
+
+      <!-- Ángel -->
+      <div class="bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 text-center">
+        <div class="mb-4">
+          <span class="text-xs font-bold tracking-widest uppercase text-agonia">2013–2017</span>
+        </div>
+        <div class="president-avatar w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-agonia/10 mx-auto mb-4 shadow-sm">
+          <img src="https://i.postimg.cc/Bn8XyNCw/Whats-App-Image-2026-02-03-at-20-36-58.jpg"
+               alt="Ángel Maciá Veas" class="w-full h-full object-cover">
+        </div>
+        <h4 class="font-serif text-lg md:text-xl text-gray-900 dark:text-white mb-2">Ángel Maciá Veas</h4>
+        <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Presidente de la Agrupación</p>
+      </div>
+
+      <!-- Agustín -->
+      <div class="bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 text-center">
+        <div class="mb-4">
+          <span class="text-xs font-bold tracking-widest uppercase text-agonia">2017–2025</span>
+        </div>
+        <div class="president-avatar w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-agonia/10 mx-auto mb-4 shadow-sm">
+          <img src="https://i.postimg.cc/x1kc7gP7/Whats-App-Image-2026-02-03-at-20-37-09.jpg"
+               alt="Agustín Alcaraz Peragón" class="w-full h-full object-cover">
+        </div>
+        <h4 class="font-serif text-lg md:text-xl text-gray-900 dark:text-white mb-2">Agustín Alcaraz Peragón</h4>
+        <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+          Presidente de la Agrupación y Presidente de Honor
+        </p>
+      </div>
+    </div>
+
+    <!-- Presidente actual – destacado -->
+    <div class="current-president mt-10 md:mt-12 flex flex-col md:flex-row items-center gap-6 md:gap-12
+                bg-gradient-to-r from-agonia/5 to-agonia-dark/5 p-6 md:p-8 rounded-xl border border-agonia/20">
+      <div class="md:w-1/4">
+        <div class="photo w-28 h-28 rounded-full overflow-hidden border-2 border-agonia/30 mx-auto md:mx-0 shadow-md">
+          <img src="https://i.postimg.cc/MpYGM4dx/Whats-App-Image-2025-12-25-at-21-50-14.jpg"
+               alt="Enrique Soler Martínez" class="w-full h-full object-cover">
+        </div>
+      </div>
+      <div class="md:w-3/4 text-center md:text-left">
+        <div class="mb-2 md:mb-4">
+          <span class="text-xs font-bold tracking-widest uppercase text-agonia">Actualidad</span>
+        </div>
+        <h4 class="font-serif text-xl md:text-2xl text-gray-900 dark:text-white mb-2">
+          Enrique Soler Martínez
+        </h4>
+        <p class="text-gray-600 dark:text-gray-400 text-base md:text-lg">
+          Presidente actual de la Agrupación
+        </p>
+      </div>
+    </div>
+
+    <p class="presidents-note text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-6 md:mt-8 text-center italic">
+      * Antes de ellos, presidieron la Agrupación: Joaquín Dato, Manuel Ramón, Wenceslao Tarín,
+      Enrique Vázquez y José Ramón Ballesta.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     VOLVER
+══════════════════════════════════════════════ -->
+<section class="py-10 md:py-16 bg-gray-50 dark:bg-gray-900/30 border-t border-gray-200 dark:border-gray-800 text-center">
+  <a href="index.html"
+     class="cta-btn inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-agonia to-agonia-dark
+            text-white rounded-full hover:scale-105 transition-all shadow-md text-sm sm:text-base">
+    <span class="material-symbols-outlined" style="font-size:1.1rem">arrow_back</span>
+    Volver a la Página Principal
+  </a>
+</section>
+
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-fade-in-up');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.animate-fade-in-up').forEach(el => observer.observe(el));
+});
+</script>
+</body>
+</html>

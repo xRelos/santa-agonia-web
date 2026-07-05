@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+  <title>Documentos - Agrupación Santa Agonía</title>
+
+  <!-- Librerías externas para estilos y fuentes -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+
+  <!-- Configuración de colores y fuentes para Tailwind -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "agonia":       "#411873",
+            "agonia-light": "#5d249e",
+            "agonia-dark":  "#2e1252",
+            "background-light": "#ffffff",
+            "background-dark":  "#120a1a",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"],
+            "serif":   ["Playfair Display", "serif"]
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Estilos personalizados para el diseño de la página -->
+  <style>
+    /* Quita el resaltado al tocar en móviles */
+    * { -webkit-tap-highlight-color: transparent; }
+
+    /* Insignia morada */
+    .badge-agonia { background-color: #411873; color: white; border: 1px solid #411873; }
+
+    /* Tarjetas tipo "carpeta" con efecto hover */
+    .folder-card { transition: all 0.3s ease; cursor: pointer; overflow: hidden; height: 100%; }
+    @media (hover: hover) {
+      .folder-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(65,24,115,0.2); }
+    }
+
+    /* Imagen dentro de las tarjetas */
+    .folder-img { height: 180px; object-fit: cover; width: 100%; }
+
+    /* MODALES: ocultos por defecto, se muestran con la clase "active" */
+    .pdf-modal {
+      opacity: 0; visibility: hidden;
+      transition: all 0.25s ease-out;
+      z-index: 100000 !important;
+    }
+    .pdf-modal.active { opacity: 1; visibility: visible; }
+
+    /* Contenedor del visor de PDF */
+    #pdfContainer {
+      width: 95vw;
+      height: 90vh;
+      max-width: 1400px;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    /* En móvil, el visor ocupa toda la pantalla */
+    @media (max-width: 768px) {
+      #pdfContainer { width: 100vw; height: 100vh; border-radius: 0; }
+    }
+
+    /* Modo pantalla completa */
+    .fullscreen-mode {
+      position: fixed !important;
+      top: 0 !important; left: 0 !important;
+      width: 100vw !important; height: 100vh !important;
+      max-width: 100vw !important; max-height: 100vh !important;
+      margin: 0 !important; z-index: 100001 !important; border-radius: 0 !important;
+    }
+
+    /* Esqueleto de carga (shimmer) */
+    .skeleton {
+      background: linear-gradient(90deg,#f3f4f6 25%,#e5e7eb 50%,#f3f4f6 75%);
+      background-size: 400% 100%; animation: shimmer 1.8s infinite;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    /* Cuadrícula responsiva para las tarjetas */
+    .cards-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+      .cards-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Margen superior para el contenido principal */
+    main { margin-top: 68px; }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+
+<main class="pt-8 pb-20">
+  <!-- ============================================================
+       SECCIÓN HERO: Título y descripción
+       ============================================================ -->
+  <section class="py-12 text-center px-4">
+    <div class="max-w-7xl mx-auto">
+      <span class="badge-agonia px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase mb-4 inline-block">
+        Archivo documental
+      </span>
+      <h1 class="text-4xl md:text-6xl font-serif text-gray-900 dark:text-white mb-4">Documentos</h1>
+      <div class="w-16 h-1 bg-agonia mx-auto mb-6 rounded-full"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TARJETAS PRINCIPALES: Revistas, Reglamento e Históricos
+       ============================================================ -->
+  <section class="max-w-7xl mx-auto px-5">
+    <div class="cards-grid">
+
+      <!-- Tarjeta: Revistas (abre modal con el listado) -->
+      <div class="folder-card bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-agonia/20" data-modal="modal-revistas">
+        <img src="https://i.postimg.cc/zD0ZQR8q/Captura-de-pantalla-2026-03-26-195453.png" class="folder-img" alt="Revistas">
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-serif">Revistas</h3>
+          <p class="text-xs text-gray-500">Publicaciones anuales</p>
+        </div>
+      </div>
+
+      <!-- Tarjeta: Reglamento (enlace directo a Google Drive) -->
+      <a href="https://drive.google.com/file/d/FAKE_ID_REG/view" target="_blank" class="folder-card bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-agonia/20 block">
+        <img src="https://i.postimg.cc/GhNK5b1b/Agonía_escudo.png" class="folder-img" alt="Reglamento">
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-serif">Reglamento</h3>
+          <p class="text-xs text-gray-500">Normativa interna vigente</p>
+        </div>
+      </a>
+
+      <!-- Tarjeta: Archivos Históricos (abre modal con el listado) -->
+      <div class="folder-card bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-agonia/20" data-modal="modal-historicos">
+        <img src="https://i.postimg.cc/hPCSP9Yd/Whats_App_Image_2026_01_25_at_21_22_25.jpg" class="folder-img" alt="Históricos">
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-serif">Archivos Históricos</h3>
+          <p class="text-xs text-gray-500">Actas, fotos y pregones</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SUBMODAL: Listado de documentos (Revistas o Históricos)
+       ============================================================ -->
+  <div id="subModal" class="pdf-modal fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onclick="if(event.target===this) closeSubModal()">
+    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
+      <!-- Cabecera del submodal -->
+      <div class="p-4 border-b dark:border-gray-700 flex items-center bg-agonia text-white">
+        <button onclick="closeSubModal()" class="text-3xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10">×</button>
+        <h2 id="subModalTitle" class="flex-1 text-center font-serif text-xl"></h2>
+        <div class="w-10"></div>
+      </div>
+      <!-- Contenido: lista de documentos con sus enlaces -->
+      <div id="subModalContent" class="p-6 overflow-y-auto flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 dark:bg-gray-900"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL DEL VISOR DE PDF
+       ============================================================ -->
+  <div id="pdfModal" class="pdf-modal fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm md:p-6" onclick="if(event.target===this) closePdfModal()">
+    <div id="pdfContainer" class="bg-white dark:bg-gray-900 md:rounded-2xl flex flex-col overflow-hidden shadow-2xl relative">
+      <!-- Cabecera del visor -->
+      <div class="p-3 md:p-4 border-b dark:border-gray-700 flex items-center bg-agonia text-white">
+        <button onclick="closePdfModal()" class="text-4xl w-12 h-12 flex items-center justify-center rounded-full hover:bg-white/10">×</button>
+        <h3 id="pdfTitle" class="flex-1 text-center text-sm md:text-lg font-serif truncate px-4"></h3>
+        <!-- Botón de pantalla completa -->
+        <button id="fullscreenToggleBtn" onclick="toggleFullscreen()" class="text-white p-2 rounded-lg hover:bg-white/10">
+          <span class="material-symbols-outlined text-3xl">fullscreen</span>
+        </button>
+      </div>
+      <!-- Cuerpo del visor con el PDF -->
+      <div class="flex-1 relative bg-gray-200 dark:bg-gray-800">
+        <!-- Esqueleto de carga -->
+        <div id="pdfSkeleton" class="absolute inset-0 flex flex-col items-center justify-center skeleton z-10">
+          <span class="material-symbols-outlined text-agonia text-5xl animate-pulse mb-2">description</span>
+        </div>
+        <!-- Iframe que carga el PDF -->
+        <iframe id="pdfFrame" src="" class="w-full h-full border-0"></iframe>
+      </div>
+      <!-- Pie del visor con botón de descarga -->
+      <div class="p-3 border-t dark:border-gray-700 bg-white dark:bg-gray-800 flex justify-end">
+        <a id="pdfDownload" href="#" target="_blank" class="px-6 py-2 bg-agonia text-white rounded-full text-sm font-medium hover:bg-agonia-dark">Descargar PDF</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ============================================================
+     JAVASCRIPT: datos y funciones para los modales
+     ============================================================ -->
+<script>
+  // ============================================================
+  // DATOS DE LAS REVISTAS (cada objeto tiene título, URL y año)
+  // ============================================================
+  const dataRevistas = [
+    { title: "Revista Semana Santa 2026", url: "https://drive.google.com/file/d/FAKE_ID_2026/view", year: "2026" },
+    { title: "Revista Semana Santa 2025", url: "https://drive.google.com/file/d/FAKE_ID_2025/view", year: "2025" },
+    { title: "Revista Semana Santa 2024", url: "https://drive.google.com/file/d/FAKE_ID_2024/view", year: "2024" },
+    { title: "Revista Semana Santa 2023", url: "https://drive.google.com/file/d/FAKE_ID_2023/view", year: "2023" },
+    { title: "Revista Semana Santa 2022", url: "https://drive.google.com/file/d/FAKE_ID_2022/view", year: "2022" },
+    { title: "Revista Semana Santa 2021", url: "https://drive.google.com/file/d/FAKE_ID_2021/view", year: "2021" },
+    { title: "Revista especial Semana Santa 2020", url: "https://drive.google.com/file/d/FAKE_ID_2020ESP/view", year: "2020" },
+    { title: "Revista Semana Santa 2020", url: "https://drive.google.com/file/d/FAKE_ID_2020/view", year: "2020" },
+    { title: "Revista Semana Santa 2019", url: "https://drive.google.com/file/d/FAKE_ID_2019/view", year: "2019" },
+    { title: "Revista Semana Santa 2018", url: "https://drive.google.com/file/d/FAKE_ID_2018/view", year: "2018" },
+    { title: "Revista Semana Santa 2017", url: "https://drive.google.com/file/d/FAKE_ID_2017/view", year: "2017" },
+    { title: "Revista Semana Santa 2016", url: "https://drive.google.com/file/d/FAKE_ID_2016/view", year: "2016" },
+    { title: "Revista Semana Santa 2015", url: "https://drive.google.com/file/d/FAKE_ID_2015/view", year: "2015" },
+    { title: "Revista Semana Santa 2014", url: "https://drive.google.com/file/d/FAKE_ID_2014/view", year: "2014" },
+    { title: "Revista Semana Santa 2013", url: "https://drive.google.com/file/d/FAKE_ID_2013/view", year: "2013" },
+    { title: "Revista Semana Santa 2012", url: "https://drive.google.com/file/d/FAKE_ID_2012/view", year: "2012" },
+    { title: "Revista Semana Santa 2011", url: "https://drive.google.com/file/d/FAKE_ID_2011/view", year: "2011" },
+    { title: "Revista Semana Santa 2010", url: "https://drive.google.com/file/d/FAKE_ID_2010/view", year: "2010" },
+    { title: "Revista Semana Santa 2009", url: "https://drive.google.com/file/d/FAKE_ID_2009/view", year: "2009" },
+    { title: "Revista Semana Santa 2008", url: "https://drive.google.com/file/d/FAKE_ID_2008/view", year: "2008" }
+  ];
+
+  // ============================================================
+  // DATOS DE LOS DOCUMENTOS HISTÓRICOS
+  // ============================================================
+  const dataHistoricos = [
+    { title: "Romance - Juan Mediano Durán", url: "https://drive.google.com/file/d/FAKE_ID_ROMANCE/view", date: "1979" },
+    { title: "Hoy procesiona la Agonía - Agustín Alcaraz", url: "https://drive.google.com/file/d/FAKE_ID_AGONIA/view", date: "2020" },
+    { title: "Apuntes para la historia de la Agonía - Isidoro Valverde", url: "https://drive.google.com/file/d/FAKE_ID_APUNTES/view", date: "1980" },
+    { title: "Pregón del 75 aniversario - Mariano Pérez", url: "https://drive.google.com/file/d/FAKE_ID_PREGON/view", date: "2004" },
+    { title: "Clausura del 75 aniversario - Gregorio Saura", url: "https://drive.google.com/file/d/FAKE_ID_CLAUSURA/view", date: "2004" },
+    { title: "Recordemos 2020 - José Alcaraz", url: "https://drive.google.com/file/d/FAKE_ID_RECORDEMOS/view", date: "2020" },
+    { title: "Entrevista a José María García", url: "https://drive.google.com/file/d/FAKE_ID_ENTREVISTA/view", date: "2004" },
+    { title: "Poesía - José Alcaraz García", url: "https://drive.google.com/file/d/FAKE_ID_POESIA/view", date: "2005" },
+    { title: "Pregón de la Cruz de mayo - Gregorio Saura", url: "https://drive.google.com/file/d/FAKE_ID_CRUZ/view", date: "2012" },
+    { title: "Oración homilía misa septiembre - Francisco Montesinos", url: "https://drive.google.com/file/d/FAKE_ID_ORACION/view", date: "2012" },
+    { title: "Llamada literaria 2013 - Agustín Alcaraz", url: "https://drive.google.com/file/d/FAKE_ID_LLAMADA/view", date: "2013" },
+    { title: "Presentación revista Agonía 2014", url: "https://drive.google.com/file/d/FAKE_ID_PRESENTACION/view", date: "2014" },
+    { title: "El reto de una primera procesión - Agustín Alcaraz", url: "https://drive.google.com/file/d/FAKE_ID_RETO/view", date: "2014" },
+    { title: "Si alguien me preguntara... - Mª José Soler", url: "https://drive.google.com/file/d/FAKE_ID_PREGUNTARA/view", date: "2011" },
+    { title: "Presentación pregonero Cruz de mayo 2012 - Agustín Alcaraz", url: "https://drive.google.com/file/d/FAKE_ID_PRESENTACION_CRUZ/view", date: "2012" }
+  ];
+
+  // ============================================================
+  // FUNCIONES PARA ABRIR Y CERRAR MODALES
+  // ============================================================
+
+  // Abre el submodal con la categoría seleccionada (revistas o historicos)
+  function openSubModal(category) {
+    // Elegimos el array de datos según la categoría
+    const items = category === 'revistas' ? dataRevistas : dataHistoricos;
+
+    // Cambiamos el título del submodal
+    document.getElementById('subModalTitle').textContent = category === 'revistas' ? "Revistas de la Agrupación" : "Archivo Histórico";
+
+    // Generamos el HTML con la lista de documentos
+    let html = '';
+    items.forEach(item => {
+      html += `
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl border border-agonia/10 hover:border-agonia cursor-pointer flex items-center gap-4 shadow-sm" 
+             onclick="openPdfModal('${item.url}', '${item.title}', '${item.year || item.date}')">
+          <span class="material-symbols-outlined text-agonia text-3xl">article</span>
+          <div class="flex-1 truncate text-left">
+            <h4 class="font-serif text-sm md:text-base truncate">${item.title}</h4>
+            <p class="text-xs text-gray-500">${item.year || item.date}</p>
+          </div>
+        </div>
+      `;
+    });
+
+    // Metemos el HTML en el contenedor
+    document.getElementById('subModalContent').innerHTML = html;
+
+    // Mostramos el submodal y bloqueamos el scroll
+    document.getElementById('subModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Cierra el submodal
+  function closeSubModal() {
+    document.getElementById('subModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Abre el visor de PDF con el documento seleccionado
+  function openPdfModal(url, title, subtitle) {
+    // Extraemos el ID del archivo de Google Drive
+    const fileId = url.match(/\/d\/([a-zA-Z0-9_-]+)/)?.[1];
+
+    // Si no hay ID, mostramos un mensaje
+    if (!fileId) {
+      alert('No se pudo cargar el documento. Verifica la URL.');
+      return;
+    }
+
+    // Actualizamos el título del visor
+    document.getElementById('pdfTitle').innerHTML = `${title} <span class="opacity-60 text-xs">(${subtitle})</span>`;
+
+    // Cargamos el PDF en el iframe (preview de Google Drive)
+    document.getElementById('pdfFrame').src = `https://drive.google.com/file/d/${fileId}/preview`;
+
+    // Configuramos el enlace de descarga
+    document.getElementById('pdfDownload').href = `https://drive.google.com/uc?export=download&id=${fileId}`;
+
+    // Mostramos el esqueleto de carga
+    document.getElementById('pdfSkeleton').style.display = 'flex';
+
+    // Cuando el iframe termine de cargar, ocultamos el esqueleto
+    document.getElementById('pdfFrame').onload = () => {
+      document.getElementById('pdfSkeleton').style.display = 'none';
+    };
+
+    // Mostramos el modal
+    document.getElementById('pdfModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Cierra el visor de PDF
+  function closePdfModal() {
+    document.getElementById('pdfModal').classList.remove('active');
+    document.body.style.overflow = '';
+    // Limpiamos el iframe para liberar memoria
+    setTimeout(() => {
+      document.getElementById('pdfFrame').src = '';
+    }, 300);
+  }
+
+  // Alterna el modo pantalla completa del visor
+  function toggleFullscreen() {
+    const container = document.getElementById('pdfContainer');
+    const btn = document.getElementById('fullscreenToggleBtn');
+
+    if (!container.classList.contains('fullscreen-mode')) {
+      container.classList.add('fullscreen-mode');
+      btn.innerHTML = '<span class="material-symbols-outlined text-3xl">fullscreen_exit</span>';
+    } else {
+      container.classList.remove('fullscreen-mode');
+      btn.innerHTML = '<span class="material-symbols-outlined text-3xl">fullscreen</span>';
+    }
+  }
+
+  // ============================================================
+  // EVENTOS: asignamos el clic a las tarjetas principales
+  // ============================================================
+  document.querySelectorAll('[data-modal]').forEach(card => {
+    card.addEventListener('click', () => {
+      // Extraemos la categoría del atributo data-modal (ej: "modal-revistas" → "revistas")
+      const category = card.getAttribute('data-modal').split('-')[1];
+      openSubModal(category);
+    });
+  });
+
+  // ============================================================
+  // CIERRE CON TECLA ESCAPE
+  // ============================================================
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      if (document.getElementById('pdfModal').classList.contains('active')) {
+        closePdfModal();
+      } else if (document.getElementById('subModal').classList.contains('active')) {
+        closeSubModal();
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

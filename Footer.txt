@@ -1,0 +1,221 @@
+<!-- ============================================================
+     FOOTER — Agrupación Santa Agonía
+     Pega este bloque completo en el campo "HTML personalizado"
+     del footer de ONE.com
+============================================================ -->
+
+<style>
+  #sf{
+    background:#ffffff;
+    color:#374151;
+    font-family:'Inter',sans-serif;
+    padding:3rem 0 0;
+    border-top:1px solid rgba(65,24,115,.12);
+  }
+
+  #sf .sf-in{
+    width:100%;max-width:1280px;margin:0 auto;
+    padding:0 1.5rem;
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:2.5rem;
+  }
+
+  /* Columna 1: marca */
+  #sf .sf-brand img{
+    height:50px;width:auto;display:block;margin-bottom:1rem;
+  }
+  #sf .sf-brand p{
+    font-size:.82rem;line-height:1.75;color:#6b7280;max-width:260px;
+  }
+  #sf .sf-brand .sf-badge{
+    display:inline-block;margin-top:1.1rem;
+    font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+    color:#411873;border:1px solid rgba(65,24,115,.25);
+    padding:.3rem .8rem;border-radius:999px;
+  }
+
+  /* Columnas de nav */
+  #sf .sf-col h4{
+    font-family:'Playfair Display',serif;
+    font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:#111827;margin-bottom:1.1rem;
+    padding-bottom:.5rem;border-bottom:1px solid rgba(65,24,115,.1);
+  }
+  #sf .sf-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.45rem;}
+  #sf .sf-col ul li a{
+    font-size:.82rem;color:#6b7280;text-decoration:none;
+    display:flex;align-items:center;gap:.5rem;
+    transition:color .2s,padding-left .2s;
+  }
+  #sf .sf-col ul li a::before{
+    content:'';display:inline-block;
+    width:4px;height:4px;border-radius:50%;
+    background:#411873;flex-shrink:0;opacity:.5;
+    transition:opacity .2s;
+  }
+  #sf .sf-col ul li a:hover{color:#411873;padding-left:.25rem;}
+  #sf .sf-col ul li a:hover::before{opacity:1;}
+
+  /* Barra inferior */
+  #sf .sf-bottom{
+    margin-top:2.5rem;
+    border-top:1px solid rgba(65,24,115,.08);
+    padding:1.1rem 1.5rem;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:1rem;flex-wrap:wrap;
+    max-width:1280px;margin-left:auto;margin-right:auto;
+  }
+  #sf .sf-copy{font-size:.75rem;color:#9ca3af;}
+  #sf .sf-copy span{color:#411873;}
+
+  /* Redes sociales */
+  #sf .sf-social{display:flex;gap:.55rem;align-items:center;}
+  #sf .sf-social a{
+    width:34px;height:34px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(65,24,115,.06);
+    transition:background .2s,transform .2s;
+    flex-shrink:0;text-decoration:none;
+  }
+  #sf .sf-social a:hover{background:rgba(65,24,115,.15);transform:translateY(-2px);}
+  #sf .sf-social a svg{width:15px;height:15px;fill:#411873;display:block;}
+
+  /* ── Mobile ── */
+  @media(max-width:768px){
+    #sf{padding:2rem 0 0;}
+    #sf .sf-in{grid-template-columns:1fr;gap:1.75rem;padding:0 1rem;}
+    #sf .sf-brand img{height:44px;}
+    #sf .sf-brand p{max-width:100%;}
+
+    /* Acordeón */
+    #sf .sf-col h4{
+      cursor:pointer;margin-bottom:0;
+      display:flex;align-items:center;justify-content:space-between;
+      user-select:none;-webkit-user-select:none;
+    }
+    #sf .sf-col h4::after{
+      content:'▾';font-size:.9rem;color:#411873;
+      transition:transform .3s;display:inline-block;
+    }
+    #sf .sf-col.open h4::after{transform:rotate(180deg);}
+    #sf .sf-col ul{
+      max-height:0;overflow:hidden;
+      transition:max-height .35s cubic-bezier(.4,0,.2,1),margin-top .3s;
+      margin-top:0;
+    }
+    #sf .sf-col.open ul{max-height:400px;margin-top:.9rem;}
+
+    #sf .sf-bottom{
+      flex-direction:column;align-items:flex-start;gap:.75rem;padding:1rem;
+    }
+  }
+</style>
+
+<footer id="sf">
+  <div class="sf-in">
+
+    <!-- Columna 1: marca -->
+    <div class="sf-brand">
+      <img src="https://i.postimg.cc/Hs6nSs8k/Agonia.png" alt="Logo Santa Agonía"/>
+      <p>Agrupación de la Santa Agonía, Vera Cruz y Condena de Jesús.<br>Cofradía Marraja · Cartagena</p>
+      <span class="sf-badge">Desde 1929</span>
+    </div>
+
+    <!-- Columna 2 -->
+    <div class="sf-col" id="sf-col1">
+      <h4>La Agrupación</h4>
+      <ul id="sf-nav1"></ul>
+    </div>
+
+    <!-- Columna 3 -->
+    <div class="sf-col" id="sf-col2">
+      <h4>Más información</h4>
+      <ul id="sf-nav2"></ul>
+    </div>
+
+  </div>
+
+  <!-- Barra inferior -->
+  <div class="sf-bottom">
+    <p class="sf-copy">© <span id="sf-year"></span> Agrupación Santa Agonía · <span>santaagonia.es</span></p>
+
+    <div class="sf-social">
+
+      <!-- X (Twitter) — ► cambia la URL si cambia el perfil -->
+      <a href="https://x.com/AgoniaMarrajo" aria-label="X / Twitter" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.258 5.63 5.906-5.63Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+
+      <!-- Facebook — ► cambia la URL si cambia el perfil -->
+      <a href="https://www.facebook.com/p/Agrupaci%C3%B3n-Santa-Agon%C3%ADa-Vera-Cruz-y-Condena-de-Jes%C3%BAs-100066865784188/" aria-label="Facebook" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+        </svg>
+      </a>
+
+      <!-- Instagram — ► cambia la URL si cambia el perfil -->
+      <a href="https://www.instagram.com/santa_agonia/" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+        </svg>
+      </a>
+
+      <!-- YouTube — ► cambia la URL si cambia el perfil -->
+      <a href="https://www.youtube.com/@santaagonia6680" aria-label="YouTube" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      </a>
+
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+
+  /* ============================================================
+     ▼▼▼  AQUÍ SE CAMBIAN LOS ENLACES  ▼▼▼
+     col: 1 → columna "La Agrupación"
+     col: 2 → columna "Más información"
+  ============================================================ */
+  var L=[
+    {label:"Inicio",     href:"index.html",     col:1},
+    {label:"Historia",   href:"historia.html",   col:1},
+    {label:"Agonía",     href:"agonia.html",     col:1},
+    {label:"Condena",    href:"condena.html",    col:1},
+    {label:"Vera Cruz",  href:"vera.html",       col:1},
+    {label:"Actos",      href:"actos.html",      col:2},
+    {label:"Multimedia", href:"multimedia.html", col:2},
+    {label:"Directiva",  href:"directiva.html",  col:2},
+    {label:"Contacto",   href:"contacto.html",   col:2},
+  ];
+  /* ▲▲▲  FIN  ▲▲▲ */
+
+  var n1=document.getElementById('sf-nav1');
+  var n2=document.getElementById('sf-nav2');
+  L.forEach(function(l){
+    var li=document.createElement('li');
+    var a=document.createElement('a');
+    a.href=l.href;a.textContent=l.label;
+    li.appendChild(a);
+    (l.col===1?n1:n2).appendChild(li);
+  });
+
+  document.getElementById('sf-year').textContent=new Date().getFullYear();
+
+  /* Acordeón móvil */
+  document.querySelectorAll('#sf .sf-col h4').forEach(function(h4){
+    h4.addEventListener('click',function(){
+      var col=h4.closest('.sf-col');
+      var wasOpen=col.classList.contains('open');
+      document.querySelectorAll('#sf .sf-col').forEach(function(c){c.classList.remove('open');});
+      if(!wasOpen)col.classList.add('open');
+    });
+  });
+
+})();
+</script>

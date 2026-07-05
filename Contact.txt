@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Contacto - Cofradía Marraja</title>
+
+  <!-- Librerías externas que usamos para dar estilos y fuentes -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+
+  <!-- Configuración extra de colores y fuentes para Tailwind -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "lila": "#411873",
+            "cardenal": "#9B1B30",
+            "pergamino": "#F5E6D3",
+            "background-light": "#ffffff",
+            "background-dark": "#120a1a",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"],
+            "serif": ["Playfair Display", "serif"]
+          }
+        },
+      },
+    }
+  </script>
+
+  <!-- Estilos pequeños que se usan en varias partes -->
+  <style>
+    .section-divider {
+      width: 4rem;
+      height: 1px;
+      background: linear-gradient(90deg, #411873, #9B1B30);
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<main class="pt-4">
+
+  <!-- ============================================================
+       SECCIÓN HERO: Título principal y descripción
+       ============================================================ -->
+  <section class="py-20 bg-white dark:bg-background-dark">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <h1 class="text-4xl md:text-6xl font-serif text-gray-900 dark:text-white mb-4">
+        Contacto
+      </h1>
+      <div class="section-divider mb-6"></div>
+      <p class="max-w-2xl mx-auto text-gray-500 dark:text-gray-400 font-serif italic text-lg">
+        Estamos a tu disposición para cualquier consulta relacionada con la agrupación y sus tercios.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TARJETAS DE CONTACTO: correo, teléfono y dirección
+       ============================================================ -->
+  <section class="py-16 bg-gray-50 dark:bg-background-dark/30">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10">
+
+      <!-- Tarjeta de correo electrónico -->
+      <div class="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-sm border-t-4 border-lila">
+        <span class="material-symbols-outlined text-lila text-4xl mb-4">mail</span>
+        <h3 class="text-xl font-serif text-gray-900 dark:text-white mb-2">Correo electrónico</h3>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">contacto@marrajos.es</p>
+      </div>
+
+      <!-- Tarjeta de teléfono -->
+      <div class="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-sm border-t-4 border-cardenal">
+        <span class="material-symbols-outlined text-cardenal text-4xl mb-4">call</span>
+        <h3 class="text-xl font-serif text-gray-900 dark:text-white mb-2">Teléfono</h3>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">+34 600 00 00 00</p>
+      </div>
+
+      <!-- Tarjeta de dirección -->
+      <div class="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-sm border-t-4 border-pergamino">
+        <span class="material-symbols-outlined text-yellow-700 text-4xl mb-4">location_on</span>
+        <h3 class="text-xl font-serif text-gray-900 dark:text-white mb-2">Dirección</h3>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">
+          C. Ejemplo, 25<br>
+          Cartagena, Región de Murcia
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FORMULARIO DE ALTA: enlace a Google Forms
+       ============================================================ -->
+  <section class="py-16 bg-white dark:bg-background-dark">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-serif text-gray-900 dark:text-white mb-4">Alta a la Agrupación</h2>
+        <div class="w-16 h-[1px] bg-cardenal mx-auto"></div>
+        <p class="max-w-2xl mx-auto text-gray-600 dark:text-gray-400 mt-6">
+          Si desea formar parte de La Agonía, complete el formulario de inscripción online.
+        </p>
+      </div>
+
+      <div class="bg-gray-50 dark:bg-gray-900 p-8 rounded-lg border border-gray-200 dark:border-gray-800">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="flex-1">
+            <h3 class="text-2xl font-serif text-gray-900 dark:text-white mb-4">Formulario de Inscripción</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">
+              Complete el formulario oficial de Google para solicitar su alta como miembro de la Agrupación.
+              El formulario es gestionado directamente por la junta directiva.
+            </p>
+            <div class="flex items-center text-gray-600 dark:text-gray-400">
+              <span class="material-symbols-outlined text-cardenal mr-3">info</span>
+              <span class="text-sm">Es necesario tener una cuenta de Google para completar el formulario.</span>
+            </div>
+          </div>
+          <div class="flex-shrink-0">
+            <!-- Enlace al formulario de Google (se ha cambiado por uno genérico) -->
+            <a href="https://docs.google.com/forms/d/e/FAKE_ID/viewform"
+               target="_blank"
+               class="inline-flex items-center gap-2 px-8 py-4 bg-cardenal text-white rounded-lg hover:bg-cardenal/80 transition-colors font-medium">
+              <span class="material-symbols-outlined">edit_document</span>
+              Acceder al Formulario de Alta
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CRÉDITOS Y RESPONSABLES
+       ============================================================ -->
+  <section class="py-16 bg-gray-50 dark:bg-background-dark/30">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-serif text-gray-900 dark:text-white mb-4">Créditos y Responsables</h2>
+        <div class="w-16 h-[1px] bg-lila mx-auto"></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <!-- Desarrollo Web -->
+        <div class="bg-white dark:bg-gray-900 p-8 rounded-lg">
+          <h3 class="text-xl font-serif text-gray-900 dark:text-white mb-6">Desarrollo Web</h3>
+          <div class="space-y-6">
+            <div>
+              <p class="font-medium text-gray-900 dark:text-white mb-1">Estructura y diseño web original:</p>
+              <p class="text-gray-600 dark:text-gray-400">Equipo Social de la Agrupación</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fotografías -->
+        <div class="bg-white dark:bg-gray-900 p-8 rounded-lg">
+          <h3 class="text-xl font-serif text-gray-900 dark:text-white mb-6">Fotografías</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-4">
+            Archivo de la Agrupación, Bressonts, Fotógrafo 1, Fotógrafo 2, Fotógrafo 3, Fotógrafo 4.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Derechos de autor -->
+      <div class="mt-8 p-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
+        <h4 class="font-serif text-lg text-gray-900 dark:text-white mb-4">Derechos de Autor</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          Todos los derechos sobre los contenidos de las colaboraciones (textos, fotografías, vídeos, etc...)
+          pertenecen a sus respectivos autores, queda terminantemente prohibido el uso por terceros sin la autorización de los mismos.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MAPA: ubicación con iframe de Google Maps
+       ============================================================ -->
+  <section class="py-16 bg-gray-50 dark:bg-background-dark/30">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-serif text-gray-900 dark:text-white mb-4">Ubicación</h2>
+      <div class="section-divider mb-6"></div>
+
+      <p class="text-gray-600 dark:text-gray-400 mb-6">
+        Puedes encontrarnos en la sede histórica de la Cofradía Marraja.
+      </p>
+
+      <div class="w-full h-[450px] rounded-xl overflow-hidden shadow-lg border border-gray-300 dark:border-gray-700">
+        <!-- Mapa con coordenadas de ejemplo (coordenadas de Cartagena) -->
+        <iframe
+          width="100%"
+          height="100%"
+          style="border:0;"
+          loading="lazy"
+          allowfullscreen
+          src="https://www.google.com/maps?q=37.60158481629705,-0.985880415939634&hl=es&z=18&output=embed">
+        </iframe>
+      </div>
+
+      <a href="https://maps.app.goo.gl/FAKE_LINK" target="_blank"
+         class="inline-flex items-center gap-2 px-6 py-3 bg-cardenal text-white rounded-full hover:bg-cardenal/80 transition-colors mt-6">
+        <span class="material-symbols-outlined text-sm">map</span>
+        Abrir en Google Maps
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BOTÓN PARA VOLVER A LA PÁGINA PRINCIPAL
+       ============================================================ -->
+  <section class="py-16 bg-white dark:bg-background-dark">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <a href="index.html"
+         class="inline-flex items-center gap-2 px-8 py-4 bg-lila text-white rounded-full hover:bg-lila/80 transition-colors text-lg font-medium">
+        <span class="material-symbols-outlined">arrow_back</span>
+        Volver a la Página Principal
+      </a>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
