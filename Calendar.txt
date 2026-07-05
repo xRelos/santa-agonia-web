@@ -1224,7 +1224,7 @@
         // CONFIGURACIÓN
         // ============================================================
         // CLAVE DE API DE GOOGLE (pública, para usar el calendario)
-        const GOOGLE_API_KEY = 'AIzaSyA_qM6n0_cdzZ_uuIb9xhIFwzXsz_OWKVQ55';
+        const GOOGLE_API_KEY = 'API KEY';
         // ID del calendario de Google (público, solo lectura)
         const CALENDAR_ID = 'FAKE_CALENDAR_ID@group.calendar.google.com';
 
